@@ -4,7 +4,7 @@
 
 int main() {
     using namespace std;
-    const string archivoEntrada = "../files/small.fld";
+    const string archivoEntrada = "read_binary/files/small.fld";
     ifstream archivo(archivoEntrada, ios::binary);
 
     if (!archivo) {
