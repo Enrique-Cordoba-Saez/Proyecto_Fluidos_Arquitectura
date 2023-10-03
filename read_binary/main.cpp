@@ -14,7 +14,7 @@ int main() {
 
     char buffer[4];
     int i = 0;
-    while (archivo.read(buffer, sizeof(buffer))&& (i < 28))  {
+    while (archivo.read(buffer, sizeof(buffer)))  {
         float data_simple;
         memcpy(&data_simple, buffer, sizeof(data_simple));
         double data = data_simple;
