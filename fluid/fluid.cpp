@@ -1,9 +1,11 @@
 //
 // Created by Kry0m on 03/10/2023.
 //
-#include "iostream"
-using namespace std;
+#include <iostream>
+#include <vector>
+#include "sim/progargs.hpp"
 
 int main(){
-    cout << "hola!";
+    std::vector<double> const valoresDobles = leerArchivo("../../files/small.fld");
+    escribirArchivo("../../files/small_out.fld", valoresDobles);
 }
