@@ -6,7 +6,19 @@
 #include <cstring>
 #include <vector>
 #include <array>
+#include <span>
 #include "progargs.hpp"
+
+std::vector<char *> procesarArgumentos(int argc, std::span<char*> args_view) {
+    std::vector const args(args_view.begin() + 1, args_view.end());
+    std::cout << argc << '\n';
+    for (const auto& arg : args) {
+        std::cout << arg << '\n';
+    }
+    std::vector<double> const valoresDobles = leerArchivo(args[1]);
+    escribirArchivo(args[2], valoresDobles);
+    return args;
+}
 
 std::vector<double> leerArchivo(const std::string& nombre_archivo) {
     std::ifstream archivo(nombre_archivo, std::ios::binary);
@@ -19,8 +31,8 @@ std::vector<double> leerArchivo(const std::string& nombre_archivo) {
     while (archivo.read(buffer.data(), static_cast<std::streamsize>(buffer.size()))) {
         float data_simple = 0;
         std::memcpy(&data_simple, buffer.data(), buffer.size());
-        double const data = data_simple;
-        valoresDoble.push_back(data);
+        double const data_double = data_simple;
+        valoresDoble.push_back(data_double);
     }
     archivo.close();
     return valoresDoble;

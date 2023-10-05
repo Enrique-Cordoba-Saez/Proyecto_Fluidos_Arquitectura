@@ -5,6 +5,7 @@
 #ifndef PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
 #define PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
 
+std::vector<char *> procesarArgumentos(int argc, std::span<char*> args_view);
 std::vector<double> leerArchivo(const std::string& nombre_archivo);
 int escribirArchivo(const std::string& nombre_archivo, std::vector<double> valoresDoble);
 

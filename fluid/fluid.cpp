@@ -3,9 +3,10 @@
 //
 #include <iostream>
 #include <vector>
+#include <span>
 #include "sim/progargs.hpp"
 
-int main(){
-    std::vector<double> const valoresDobles = leerArchivo("../../files/small.fld");
-    escribirArchivo("../../files/small_out.fld", valoresDobles);
+int main(int argc, char* argv[]) {
+    std::span const args_view{argv, static_cast<size_t>((argc))};
+    procesarArgumentos(argc, args_view);
 }
