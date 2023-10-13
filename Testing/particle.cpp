@@ -1,4 +1,5 @@
 #include "particle.hpp"
+#include <iostream>
 
 Particle::Particle(
     double initialDensity, double initialAcceleration,
@@ -31,4 +32,24 @@ Vector Particle::getHeadVector() const {
 
 Vector Particle::getVelocityVector() const {
     return velocityVector;
+}
+
+void Particle::reposition() {
+    std::cout << "Repositioning particle..." << std::endl;
+
+    incremento_densidad();
+    transformacion_densidad();
+    transferencia_aceleracion();
+}
+
+void Particle::incremento_densidad() {
+    std::cout << "Incremento de densidad..." << std::endl;
+}
+
+void Particle::transformacion_densidad() {
+    std::cout << "Transformacion de densidad..." << std::endl;
+}
+
+void Particle::transferencia_aceleracion() {
+    std::cout << "Transferencia de aceleracion..." << std::endl;
 }

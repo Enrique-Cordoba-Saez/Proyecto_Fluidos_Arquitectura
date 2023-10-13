@@ -24,6 +24,9 @@ int main() {
                   << "hv: (" << hv.x << ", " << hv.y << ", " << hv.z << "), "
                   << "v: (" << vel.x << ", " << vel.y << ", " << vel.z << ")"
                   << std::endl;
+
+        // Call the new function
+        particles[i].reposition();
     }
 
     return 0;

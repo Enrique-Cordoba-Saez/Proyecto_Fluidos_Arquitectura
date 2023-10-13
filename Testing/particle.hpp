@@ -10,7 +10,7 @@ struct Vector {
 class Particle {
 public:
     Particle(
-        double density = 0.0, double acceleration = 0.0, // vector de aceleracion?
+        double density = 0.0, double acceleration = 0.0,
         const Vector& initialPosition = Vector(),
         const Vector& initialHeadVector = Vector(),
         const Vector& initialVelocityVector = Vector()
@@ -22,6 +22,11 @@ public:
     Vector getPosition() const;
     Vector getHeadVector() const;
     Vector getVelocityVector() const;
+
+    void reposition();
+    void incremento_densidad(); // estoy mezclando inglés y español
+    void transformacion_densidad();
+    void transferencia_aceleracion();
 
 private:
     double density;
