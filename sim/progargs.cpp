@@ -8,9 +8,7 @@
 
 // Constructor de la clase ProgArgs. Recibe el número de argumentos (argc) y
 // una vista de los mismos (args_view).
-ProgArgs::ProgArgs(int argc, std::span<char *> args_view) {
-  // Guardar argumentos en vector
-  std::vector const args(args_view.begin() + 1, args_view.end());
+ProgArgs::ProgArgs(int argc, std::vector<const char*> args) {
   // Comprobar número de argumentos
   if (argc != 3) {
     std::cerr << "Error: Invalid number of arguments: " << argc << '\n';

@@ -5,6 +5,8 @@
 #ifndef PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
 #define PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
 
+#include <span>
+
 class ProgArgs {
   private:
     int time_steps;
@@ -14,7 +16,7 @@ class ProgArgs {
     int num_particles{};
 
   public:
-    ProgArgs(int argc, std::span<char*> args_view);
+    ProgArgs(int argc, std::vector<const char*> args);
     std::vector<double> leerArchivo();
     void escribirArchivo(std::vector<double> valoresDoble);
     void comprobarArchivoEntrada(const std::vector<double>& valoresDoble) const;
