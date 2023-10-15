@@ -1,10 +1,30 @@
 #include <iostream>
 #include <vector>
 #include <span>
+#include <cmath>
 #include "sim/progargs.hpp"
 #include "sim/particle.hpp"
 
+
+//Declaración de constantes escalares de la simulación
+  const float Multiplicador_De_Radio = 1.695;
+  const int Densidad_De_Fluido = 1000;
+  const float Presion_De_Rigidez = 3.0;
+  const int Colisiones_De_Rigidez = 30000;
+  const float Amortiguamiento = 128.0;
+  const float Viscosidad = 0.4;
+  const float Tamano_de_particula = 0.0002;
+  const float Paso_de_tiempo = 0.001;
+
+
+
 int main(int argc, const char* argv[]) {
+
+  //Declaración de constantes vectoriales de la simulación
+  const std::vector<float> Aceleracion_Externa{0.0, -9.8, 0.0};
+  const std::vector<float> Limite_Superior{0.065, 0.1, 0.065};
+  const std::vector<float> Limite_Inferior{-0.065, -0.08, -0.065};
+
   std::span const args_view{argv, static_cast<size_t>(argc)};
   std::vector const args(args_view.begin() + 1, args_view.end());
   // Crear objeto de la clase ProgArgs
