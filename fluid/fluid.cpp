@@ -32,12 +32,26 @@ int main(int argc, const char* argv[]) {
   // Leer archivo de entrada: devuelve vector con todos los parámetros (sin el header) en double
   std::vector<double> const valoresDobles = procesador.leerArchivo();
   procesador.imprimirAtributos();
+
+  //Declaración de parámetros de la simulación
+  double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
+  double const Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
+  const std::vector<int> Numero_Bloques = {int(ceil(Limite_Superior[0]-Limite_Inferior[0]/Longitud_Suavizado_h)),
+                                           int(ceil(Limite_Superior[1]-Limite_Inferior[1]/Longitud_Suavizado_h)),
+                                           int(ceil(Limite_Superior[2]-Limite_Inferior[2]/Longitud_Suavizado_h))
+  };
+  const std::vector<double> Tamano_Bloques = {Limite_Superior[0]-Limite_Inferior[0]/double(Numero_Bloques[0]),
+                                              Limite_Superior[1]-Limite_Inferior[1]/double(Numero_Bloques[1]),
+                                              Limite_Superior[2]-Limite_Inferior[2]/double(Numero_Bloques[2])
+};
+
   // std::vector<Particle> particles = readParticlesFromFile(filename, commonDensity, commonAcceleration);
   // Iterar pasos de tiempo
   int const time_steps = procesador.getTimesteps();
   for (int i = 1; i <= time_steps; i++) {
     // En cada proceso, para cada partícula: for particle in particles:
     // 1. Reposicionamiento de cada partícula en la malla.
+
     // 2. Cálculo de fuerzas y aceleraciones para cada partícula.
     // 3. Procesamiento de colisiones.
     // 4. Movimiento de partículas.

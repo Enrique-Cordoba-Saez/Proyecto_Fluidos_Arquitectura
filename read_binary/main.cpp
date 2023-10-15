@@ -1,8 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <cmath>
 
 int main() {
+
+
     using namespace std;
     const string archivoEntrada = "read_binary/files/small.fld";
     ifstream archivo(archivoEntrada, ios::binary);
