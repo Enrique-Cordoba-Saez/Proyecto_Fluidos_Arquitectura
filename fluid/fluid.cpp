@@ -15,6 +15,7 @@
   const float Viscosidad = 0.4;
   const float Tamano_de_particula = 0.0002;
   const float Paso_de_tiempo = 0.001;
+  const int nueve = 9;
 
 
 
@@ -43,8 +44,17 @@ int main(int argc, const char* argv[]) {
   const std::vector<double> Tamano_Bloques = {Limite_Superior[0]-Limite_Inferior[0]/double(Numero_Bloques[0]),
                                               Limite_Superior[1]-Limite_Inferior[1]/double(Numero_Bloques[1]),
                                               Limite_Superior[2]-Limite_Inferior[2]/double(Numero_Bloques[2])
-};
+  };
 
+  std::vector<double> Buffer_Parametros_Particulas(nueve, 0.0);
+  std::vector<Particle> Particulas;
+  int x = 0;
+  for (int i = 1; i <= int(valoresDobles.size()); i+=nueve){
+    for (int j = 1; j <= nueve; j++){
+      Buffer_Parametros_Particulas[j] = valoresDobles[i];
+    }
+    Particulas[x] = Particle();
+  }
   // std::vector<Particle> particles = readParticlesFromFile(filename, commonDensity, commonAcceleration);
   // Iterar pasos de tiempo
   int const time_steps = procesador.getTimesteps();

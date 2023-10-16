@@ -1,5 +1,7 @@
 #ifndef PARTICLE_HPP
 #define PARTICLE_HPP
+#include <iostream>
+#include <vector>
 
 struct Vector {
     double x;
@@ -11,9 +13,9 @@ class Particle {
 public:
     Particle(
         double density = 0.0, double acceleration = 0.0,
-        const Vector& initialPosition = Vector(),
-        const Vector& initialHeadVector = Vector(),
-        const Vector& initialVelocityVector = Vector()
+        std::vector<double> initialPosition = std::vector<double>(3, 0.0),
+        std::vector<double> initialHeadVector = std::vector<double>(3, 0.0),
+        std::vector<double> initialVelocityVector = std::vector<double>(3, 0.0)
     );
 
     // Getter methods

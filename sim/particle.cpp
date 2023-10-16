@@ -3,9 +3,9 @@
 
 Particle::Particle(
     double initialDensity, double initialAcceleration,
-    const Vector& initialPosition,
-    const Vector& initialHeadVector,
-    const Vector& initialVelocityVector
+    std::vector<double> initialPosition,
+    std::vector<double> initialHeadVector,
+    std::vector<double> initialVelocityVector
 ) : density(initialDensity),
     acceleration(initialAcceleration),
     position(initialPosition),
