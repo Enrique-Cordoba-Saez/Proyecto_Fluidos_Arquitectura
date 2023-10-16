@@ -20,7 +20,6 @@
 
 
 int main(int argc, const char* argv[]) {
-
   //Declaración de constantes vectoriales de la simulación
   const std::vector<float> Aceleracion_Externa{0.0, -9.8, 0.0};
   const std::vector<float> Limite_Superior{0.065, 0.1, 0.065};

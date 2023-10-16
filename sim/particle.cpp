@@ -5,51 +5,64 @@ Particle::Particle(
     double initialDensity, double initialAcceleration,
     std::vector<double> initialPosition,
     std::vector<double> initialHeadVector,
-    std::vector<double> initialVelocityVector
-) : density(initialDensity),
+    std::vector<double> initialVelocityVector,
+    std::vector<int> initialBlockIndexes
+    ) : density(initialDensity),
     acceleration(initialAcceleration),
     position(initialPosition),
     headVector(initialHeadVector),
-    velocityVector(initialVelocityVector) {
-    // Constructor implementation
+    velocityVector(initialVelocityVector),
+    blockIndexes(initialBlockIndexes) {
+  // Constructor implementation
 }
 
 double Particle::getDensity() const {
-    return density;
+  return density;
 }
 
 double Particle::getAcceleration() const {
-    return acceleration;
+  return acceleration;
 }
 
-Vector Particle::getPosition() const {
-    return position;
+std::vector<double> Particle::getPosition() const {
+  return position;
 }
 
-Vector Particle::getHeadVector() const {
-    return headVector;
+std::vector<double> Particle::getHeadVector() const {
+  return headVector;
 }
 
-Vector Particle::getVelocityVector() const {
-    return velocityVector;
+std::vector<double> Particle::getVelocityVector() const {
+  return velocityVector;
+}
+
+std::vector<int> Particle::getBlockIndexes() const {
+  return blockIndexes;
 }
 
 void Particle::reposition() {
-    std::cout << "Repositioning particle..." << std::endl;
+  std::cout << "Repositioning particle..." << std::endl;
 
-    incremento_densidad();
-    transformacion_densidad();
-    transferencia_aceleracion();
+  incremento_densidad();
+  transformacion_densidad();
+  transferencia_aceleracion();
 }
 
 void Particle::incremento_densidad() {
-    std::cout << "Incremento de densidad..." << std::endl;
+  std::cout << "Incremento de densidad..." << std::endl;
 }
 
 void Particle::transformacion_densidad() {
-    std::cout << "Transformacion de densidad..." << std::endl;
+  std::cout << "Transformacion de densidad..." << std::endl;
 }
 
 void Particle::transferencia_aceleracion() {
-    std::cout << "Transferencia de aceleracion..." << std::endl;
+  std::cout << "Transferencia de aceleracion..." << std::endl;
 }
+
+/*void reposicionarParticulas(std::vector<Particle> particles, std::vector<double> numBloques,
+                            std::vector<double> tamanoBloque) {
+    for (auto current_particle : particles) {
+
+    }
+}*/
