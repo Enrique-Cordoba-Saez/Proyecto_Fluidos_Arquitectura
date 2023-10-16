@@ -15,6 +15,11 @@
   const float Viscosidad = 0.4;
   const float Tamano_de_particula = 0.0002;
   const float Paso_de_tiempo = 0.001;
+
+  const int cinco = 5;
+  const int seis = 6;
+  const int siete = 7;
+  const int ocho = 8;
   const int nueve = 9;
 
 
@@ -47,12 +52,15 @@ int main(int argc, const char* argv[]) {
 
   std::vector<double> Buffer_Parametros_Particulas(nueve, 0.0);
   std::vector<Particle> Particulas;
-  int x = 0;
-  for (int i = 1; i <= int(valoresDobles.size()); i+=nueve){
-    for (int j = 1; j <= nueve; j++){
+  int indice_particulas = 0;
+  for (int i = 0; i < int(valoresDobles.size()); i+=nueve){
+    for (int j = 0; j <= nueve - 1; j++){
       Buffer_Parametros_Particulas[j] = valoresDobles[i];
     }
-    Particulas[x] = Particle();
+    Particulas[indice_particulas] = Particle(0.0, 0.0, std::vector<double>{Buffer_Parametros_Particulas[0], Buffer_Parametros_Particulas[1], Buffer_Parametros_Particulas[2]},
+                             std::vector<double> {Buffer_Parametros_Particulas[3], Buffer_Parametros_Particulas[4], Buffer_Parametros_Particulas[cinco]},
+                             std::vector<double> {Buffer_Parametros_Particulas[seis], Buffer_Parametros_Particulas[siete], Buffer_Parametros_Particulas[ocho]});
+    indice_particulas+=1;
   }
   // std::vector<Particle> particles = readParticlesFromFile(filename, commonDensity, commonAcceleration);
   // Iterar pasos de tiempo
