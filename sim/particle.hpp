@@ -21,6 +21,8 @@ class Particle {
     std::vector<double> getHeadVector() const;
     std::vector<double> getVelocityVector() const;
     std::vector<int> getBlockIndexes() const;
+    void setPosition(double px, double py, double pz);
+    void setBlockIndexes(double cx, double cy, double cz);
 
     void reposition();
     void incremento_densidad(); // estoy mezclando inglés y español
@@ -36,7 +38,8 @@ class Particle {
     std::vector<int> blockIndexes;
 };
 
-/*void reposicionarParticulas(std::vector<Particle> particles, std::vector<int> numBloques,
-                            std::vector<double> tamanoBloque);*/
+void reposicionarParticulas(std::vector<Particle> const & particles, std::vector<int> numBloques,
+                            std::vector<double> tamanoBloque);
+
 #endif // PARTICLE_HPP
 

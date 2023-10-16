@@ -4,31 +4,10 @@
 #include <cmath>
 #include "sim/progargs.hpp"
 #include "sim/particle.hpp"
-
-
-//Declaración de constantes escalares de la simulación
-  const float Multiplicador_De_Radio = 1.695;
-  const int Densidad_De_Fluido = 1000;
-  const float Presion_De_Rigidez = 3.0;
-  const int Colisiones_De_Rigidez = 30000;
-  const float Amortiguamiento = 128.0;
-  const float Viscosidad = 0.4;
-  const float Tamano_de_particula = 0.0002;
-  const float Paso_de_tiempo = 0.001;
-
-  const int cinco = 5;
-  const int seis = 6;
-  const int siete = 7;
-  const int ocho = 8;
-  const int nueve = 9;
-
+#include "sim/grid.hpp"
 
 
 int main(int argc, const char* argv[]) {
-  //Declaración de constantes vectoriales de la simulación
-  const std::vector<float> Aceleracion_Externa{0.0, -9.8, 0.0};
-  const std::vector<float> Limite_Superior{0.065, 0.1, 0.065};
-  const std::vector<float> Limite_Inferior{-0.065, -0.08, -0.065};
 
   std::span const args_view{argv, static_cast<size_t>(argc)};
   std::vector const args(args_view.begin() + 1, args_view.end());
@@ -39,7 +18,7 @@ int main(int argc, const char* argv[]) {
   procesador.imprimirAtributos();
 
   //Declaración de parámetros de la simulación
-  double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
+  //double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
   double const Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
   const std::vector<int> Numero_Bloques = {int(ceil(Limite_Superior[0]-Limite_Inferior[0]/Longitud_Suavizado_h)),
                                            int(ceil(Limite_Superior[1]-Limite_Inferior[1]/Longitud_Suavizado_h)),
@@ -51,21 +30,14 @@ int main(int argc, const char* argv[]) {
   };
 
   //Creación de las partículas
-  std::vector<double> Buffer_Parametros_Particulas(nueve, 0.0);
   std::vector<Particle> Particulas;
-  int indice_particulas = 0;
-  for (int i = 0; i < int(valoresDobles.size()); i+=nueve){
-    for (int j = 0; j <= nueve - 1; j++){
-      Buffer_Parametros_Particulas[j] = valoresDobles[i];
-    }
-    Particulas[indice_particulas] = Particle(std::vector<double>{0.0, 0.0, 0.0}, std::vector<double>{Buffer_Parametros_Particulas[0], Buffer_Parametros_Particulas[1], Buffer_Parametros_Particulas[2]},
-                                             0.0, std::vector<double> {Buffer_Parametros_Particulas[3], Buffer_Parametros_Particulas[4], Buffer_Parametros_Particulas[cinco]},
-                                             std::vector<double> {Buffer_Parametros_Particulas[seis], Buffer_Parametros_Particulas[siete], Buffer_Parametros_Particulas[ocho]});
-    indice_particulas+=1;
+  for (size_t i = 0; i < valoresDobles.size(); i+=nueve){
+    Particle nuevaParticula = Particle(std::vector<double>{0.0, 0.0, 0.0}, std::vector<double>{valoresDobles[i], valoresDobles[i+1], valoresDobles[i+2]},
+                                       0.0, std::vector<double> {valoresDobles[i+3], valoresDobles[i+4], valoresDobles[i+cinco]},
+                                       std::vector<double> {valoresDobles[i+seis], valoresDobles[i+siete], valoresDobles[i+ocho]});
+    Particulas.push_back(nuevaParticula);
   }
 
-
-  // std::vector<Particle> particles = readParticlesFromFile(filename, commonDensity, commonAcceleration);
   // Iterar pasos de tiempo
   int const time_steps = procesador.getTimesteps();
   for (int i = 1; i <= time_steps; i++) {

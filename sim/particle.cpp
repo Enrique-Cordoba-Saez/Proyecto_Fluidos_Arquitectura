@@ -1,5 +1,7 @@
 #include "particle.hpp"
+#include <cmath>
 #include <iostream>
+#include "grid.hpp"
 
 Particle::Particle(
     std::vector<double> initialAcceleration,
@@ -41,6 +43,18 @@ std::vector<int> Particle::getBlockIndexes() const {
   return blockIndexes;
 }
 
+void Particle::setPosition(double px, double py, double pz) {
+  position[0] = px;
+  position[1] = py;
+  position[2] = pz;
+}
+
+void Particle::setBlockIndexes(double cx, double cy, double cz) {
+  blockIndexes[0] = cx;
+  blockIndexes[1] = cy;
+  blockIndexes[2] = cz;
+}
+
 void Particle::reposition() {
   std::cout << "Repositioning particle..." << std::endl;
 
@@ -61,9 +75,11 @@ void Particle::transferencia_aceleracion() {
   std::cout << "Transferencia de aceleracion..." << std::endl;
 }
 
-/*void reposicionarParticulas(std::vector<Particle> particles, std::vector<double> numBloques,
+/*void reposicionarParticulas(std::vector<Particle> const & particles, std::vector<int> numBloques,
                             std::vector<double> tamanoBloque) {
-    for (auto current_particle : particles) {
+  for (auto current_particle : particles) {
+    std::vector<double> current_position = current_particle.getPosition();
+    int block_i = floor(current_position[0]);
 
-    }
+  }
 }*/
