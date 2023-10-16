@@ -6,16 +6,17 @@
 class Particle {
   public:
     Particle(
-        double density = 0.0, double acceleration = 0.0,
+        std::vector<double> acceleration = std::vector<double>(3, 0.0),
         std::vector<double> initialPosition = std::vector<double>(3, 0.0),
+        double density = 0.0,
         std::vector<double> initialHeadVector = std::vector<double>(3, 0.0),
-        std::vector<double> initialVelocityVector = std::vector<double>(3, 0.0),
-        std::vector<int> initialBlockIndexes = std::vector<int>(3, 0)
+        std::vector<double> initialVelocityVector = std::vector<double>(3, 0.0)
+        //std::vector<int> initialBlockIndexes = std::vector<int>(3, 0)
     );
 
     // Getter methods
     double getDensity() const;
-    double getAcceleration() const;
+    std::vector<double> getAcceleration() const;
     std::vector<double> getPosition() const;
     std::vector<double> getHeadVector() const;
     std::vector<double> getVelocityVector() const;
@@ -28,7 +29,7 @@ class Particle {
 
   private:
     double density;
-    double acceleration;
+    std::vector<double> acceleration;
     std::vector<double> position;
     std::vector<double> headVector;
     std::vector<double> velocityVector;

@@ -2,17 +2,18 @@
 #include <iostream>
 
 Particle::Particle(
-    double initialDensity, double initialAcceleration,
+    std::vector<double> initialAcceleration,
     std::vector<double> initialPosition,
+    double initialDensity,
     std::vector<double> initialHeadVector,
-    std::vector<double> initialVelocityVector,
-    std::vector<int> initialBlockIndexes
+    std::vector<double> initialVelocityVector
+    //std::vector<int> initialBlockIndexes
     ) : density(initialDensity),
-    acceleration(initialAcceleration),
-    position(initialPosition),
-    headVector(initialHeadVector),
-    velocityVector(initialVelocityVector),
-    blockIndexes(initialBlockIndexes) {
+    acceleration(std::move(initialAcceleration)),
+    position(std::move(initialPosition)),
+    headVector(std::move(initialHeadVector)),
+    velocityVector(std::move(initialVelocityVector)),
+    blockIndexes(std::vector<int>(3, 0)) {
   // Constructor implementation
 }
 
@@ -20,7 +21,7 @@ double Particle::getDensity() const {
   return density;
 }
 
-double Particle::getAcceleration() const {
+std::vector<double> Particle::getAcceleration() const {
   return acceleration;
 }
 

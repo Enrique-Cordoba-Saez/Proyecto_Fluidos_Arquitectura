@@ -35,9 +35,9 @@ class Block {
     );
 
     [[nodiscard]] int how_many_particles () const;
-    [[nodiscard]] std::vector<int> PosicionActual() const;
-    [[nodiscard]] std::vector<double> Dimensiones() const;
-    [[nodiscard]] std::vector<int> BloquesVecinos() const;
+    [[nodiscard]] std::vector<int> GetPosition() const;
+    [[nodiscard]] std::vector<double> GetDimensions() const;
+    [[nodiscard]] std::vector<int> GetBloquesVecinos() const;
 
 };
 

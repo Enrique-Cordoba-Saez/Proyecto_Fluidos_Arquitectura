@@ -50,6 +50,7 @@ int main(int argc, const char* argv[]) {
                                               Limite_Superior[2]-Limite_Inferior[2]/double(Numero_Bloques[2])
   };
 
+  //Creación de las partículas
   std::vector<double> Buffer_Parametros_Particulas(nueve, 0.0);
   std::vector<Particle> Particulas;
   int indice_particulas = 0;
@@ -57,11 +58,13 @@ int main(int argc, const char* argv[]) {
     for (int j = 0; j <= nueve - 1; j++){
       Buffer_Parametros_Particulas[j] = valoresDobles[i];
     }
-    Particulas[indice_particulas] = Particle(0.0, 0.0, std::vector<double>{Buffer_Parametros_Particulas[0], Buffer_Parametros_Particulas[1], Buffer_Parametros_Particulas[2]},
-                             std::vector<double> {Buffer_Parametros_Particulas[3], Buffer_Parametros_Particulas[4], Buffer_Parametros_Particulas[cinco]},
-                             std::vector<double> {Buffer_Parametros_Particulas[seis], Buffer_Parametros_Particulas[siete], Buffer_Parametros_Particulas[ocho]});
+    Particulas[indice_particulas] = Particle(std::vector<double>{0.0, 0.0, 0.0}, std::vector<double>{Buffer_Parametros_Particulas[0], Buffer_Parametros_Particulas[1], Buffer_Parametros_Particulas[2]},
+                                             0.0, std::vector<double> {Buffer_Parametros_Particulas[3], Buffer_Parametros_Particulas[4], Buffer_Parametros_Particulas[cinco]},
+                                             std::vector<double> {Buffer_Parametros_Particulas[seis], Buffer_Parametros_Particulas[siete], Buffer_Parametros_Particulas[ocho]});
     indice_particulas+=1;
   }
+
+
   // std::vector<Particle> particles = readParticlesFromFile(filename, commonDensity, commonAcceleration);
   // Iterar pasos de tiempo
   int const time_steps = procesador.getTimesteps();

@@ -19,15 +19,15 @@ int Block::how_many_particles() const{
   return n_particulas;
 }
 
-std::vector<int> Block::PosicionActual() const{
+std::vector<int> Block::GetPosition() const{
   return posicion;
 }
 
-std::vector<double> Block::Dimensiones() const{
+std::vector<double> Block::GetDimensions() const{
   return tamano;
 }
 
-std::vector<int> Block::BloquesVecinos() const{
+std::vector<int> Block::GetBloquesVecinos() const{
   return bloques_adyacentes;
 }
 
