@@ -49,7 +49,7 @@ void Particle::setPosition(double px, double py, double pz) {
   position[2] = pz;
 }
 
-void Particle::setBlockIndexes(double cx, double cy, double cz) {
+void Particle::setBlockIndexes(int cx, int cy, int cz) {
   blockIndexes[0] = cx;
   blockIndexes[1] = cy;
   blockIndexes[2] = cz;
@@ -75,11 +75,18 @@ void Particle::transferencia_aceleracion() {
   std::cout << "Transferencia de aceleracion..." << std::endl;
 }
 
-/*void reposicionarParticulas(std::vector<Particle> const & particles, std::vector<int> numBloques,
-                            std::vector<double> tamanoBloque) {
-  for (auto current_particle : particles) {
+// Función para calcular los índices de bloque para cada partícula
+void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
+                            std::vector<double> tamanoBloques) {
+  for (auto &current_particle : particles) {
     std::vector<double> current_position = current_particle.getPosition();
-    int block_i = floor(current_position[0]);
-
+    int block_x = std::floor((current_position[0] - Limite_Inferior[0]) / tamanoBloques[0]);
+    int block_y = std::floor((current_position[1] - Limite_Inferior[1]) / tamanoBloques[1]);
+    int block_z = std::floor((current_position[2] - Limite_Inferior[2]) / tamanoBloques[2]);
+    // Ajustar los índices al rango permitido
+    block_x = std::max(0, std::min(block_x, numBloques[0] - 1));
+    block_y = std::max(0, std::min(block_y, numBloques[1] - 1));
+    block_z = std::max(0, std::min(block_z, numBloques[2] - 1));
+    current_particle.setBlockIndexes(block_x, block_y, block_z);
   }
-}*/
+}
