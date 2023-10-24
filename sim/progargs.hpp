@@ -24,6 +24,7 @@ class ProgArgs {
     void leerHeader(std::ifstream & archivo, std::vector<char> & buffer);
     static void leerParametros(std::ifstream & archivo, std::vector<double> & valoresDoble,
                                std::vector<char> & buffer);
+    void calculoAceleraciones();
 
     [[nodiscard]] int getTimesteps() const;
     [[nodiscard]] double getPpm() const;

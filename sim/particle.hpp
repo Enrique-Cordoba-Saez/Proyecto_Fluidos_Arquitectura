@@ -21,6 +21,8 @@ class Particle {
     std::vector<double> getHeadVector() const;
     std::vector<double> getVelocityVector() const;
     std::vector<int> getBlockIndexes() const;
+    void setAcceleration (double x, double y, double z);
+    void setDensity(double x);
     void setPosition(double px, double py, double pz);
     void setBlockIndexes(int cx, int cy, int cz);
 

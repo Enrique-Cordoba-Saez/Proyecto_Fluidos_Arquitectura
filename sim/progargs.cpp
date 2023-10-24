@@ -6,6 +6,7 @@
 #include <span>
 #include "progargs.hpp"
 
+
 // Constructor de la clase ProgArgs. Recibe el número de argumentos (argc) y
 // una vista de los mismos (args_view).
 ProgArgs::ProgArgs(int argc, std::vector<const char*> args) {

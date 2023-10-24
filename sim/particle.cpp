@@ -55,26 +55,6 @@ void Particle::setBlockIndexes(int cx, int cy, int cz) {
   blockIndexes[2] = cz;
 }
 
-void Particle::reposition() {
-  std::cout << "Repositioning particle..." << std::endl;
-
-  incremento_densidad();
-  transformacion_densidad();
-  transferencia_aceleracion();
-}
-
-void Particle::incremento_densidad() {
-  std::cout << "Incremento de densidad..." << std::endl;
-}
-
-void Particle::transformacion_densidad() {
-  std::cout << "Transformacion de densidad..." << std::endl;
-}
-
-void Particle::transferencia_aceleracion() {
-  std::cout << "Transferencia de aceleracion..." << std::endl;
-}
-
 // Función para calcular los índices de bloque para cada partícula
 void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
                             std::vector<double> tamanoBloques) {
