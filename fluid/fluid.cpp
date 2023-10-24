@@ -18,7 +18,7 @@ int main(int argc, const char* argv[]) {
   procesador.imprimirAtributos();
 
   //Declaración de parámetros de la simulación
-  //double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
+  double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
   double const Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
   const std::vector<int> Numero_Bloques = {int(std::floor((Limite_Superior[0]-Limite_Inferior[0])/Longitud_Suavizado_h)),
                                               int(std::floor((Limite_Superior[1]-Limite_Inferior[1])/Longitud_Suavizado_h)),
@@ -43,6 +43,7 @@ int main(int argc, const char* argv[]) {
     // 1. Reposicionamiento de cada partícula en la malla.
     reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques);
     // 2. Cálculo de fuerzas y aceleraciones para cada partícula.
+    //calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m);
     // 3. Procesamiento de colisiones.
     // 4. Movimiento de partículas.
     // 5. Procesamiento de límites.
