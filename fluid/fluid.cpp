@@ -15,7 +15,6 @@ int main(int argc, const char* argv[]) {
   auto procesador = ProgArgs(argc - 1, args);
   // Leer archivo de entrada: devuelve vector con todos los parámetros (sin el header) en double
   std::vector<double> const valoresDobles = procesador.leerArchivo();
-  procesador.imprimirAtributos();
 
   //Declaración de parámetros de la simulación
   double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
@@ -28,6 +27,9 @@ int main(int argc, const char* argv[]) {
                                               (Limite_Superior[1]-Limite_Inferior[1])/double(Numero_Bloques[1]),
                                               (Limite_Superior[2]-Limite_Inferior[2])/double(Numero_Bloques[2])
   };
+
+  procesador.imprimirDatos(Masa_Particula_m, Longitud_Suavizado_h,
+                           Numero_Bloques, Tamano_Bloques);
 
   //Creación de las partículas
   std::vector<Particle> Particulas;
@@ -46,6 +48,7 @@ int main(int argc, const char* argv[]) {
     //calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m);
     // 3. Procesamiento de colisiones.
     // 4. Movimiento de partículas.
+    //movimientoParticulas(Particulas);
     // 5. Procesamiento de límites.
   }
   // procesador.escribirArchivo(valoresDobles);

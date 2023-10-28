@@ -100,11 +100,13 @@ void ProgArgs::comprobarArchivoEntrada(const std::vector<double>& valoresDoble) 
 }
 
 // Método de prueba para imprimir todos los atributos de la clase ProgArgs
-void ProgArgs::imprimirAtributos() {
-  std::cout << "Atributos de la clase ProgArgs:\nPasos de tiempo: " << time_steps
-            << "\nArchivo de entrada: " << archivoEntrada << "\nArchivo de salida: "
-            << archivoSalida << "\nPartículas por metro: " << ppm << "\nNúmero de partículas: "
-            << num_particles <<'\n';
+void ProgArgs::imprimirDatos(double masa_particula, double longitud_suavizado,
+                             std::vector<int> num_bloques, std::vector<double> tam_bloque) const {
+  std::cout << "Number of particles: " << num_particles << "\nParticles per meter: " << ppm
+            << "\nSmoothing length: " << longitud_suavizado << "\nParticle mass: " << masa_particula
+            << "\nGrid size: " << num_bloques[0] << " x " << num_bloques[1] << " x " << num_bloques[2]
+            << "\nNumber of blocks: " << num_bloques[0]*num_bloques[1]*num_bloques[2]
+            << "\nBlock size: " << tam_bloque[0] << " x " << tam_bloque[1] << " x " << tam_bloque[2] << '\n';
 }
 
 // Método para escribir todos los datos finales en el archivo de salida

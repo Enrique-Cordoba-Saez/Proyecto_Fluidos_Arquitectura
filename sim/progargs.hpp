@@ -1,7 +1,3 @@
-//
-// Created by Kry0m on 03/10/2023.
-//
-
 #ifndef PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
 #define PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
 
@@ -20,15 +16,16 @@ class ProgArgs {
     std::vector<double> leerArchivo();
     void escribirArchivo(std::vector<double> valoresDoble);
     void comprobarArchivoEntrada(const std::vector<double>& valoresDoble) const;
-    void imprimirAtributos();
+    void imprimirDatos(double masa_particula, double longitud_suavizado,
+                       std::vector<int> num_bloques, std::vector<double> tam_bloque) const;
     void leerHeader(std::ifstream & archivo, std::vector<char> & buffer);
     static void leerParametros(std::ifstream & archivo, std::vector<double> & valoresDoble,
                                std::vector<char> & buffer);
-    void calculoAceleraciones();
 
     [[nodiscard]] int getTimesteps() const;
     [[nodiscard]] double getPpm() const;
     [[nodiscard]] int getNumParticles() const;
+
 };
 
 #endif //PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP

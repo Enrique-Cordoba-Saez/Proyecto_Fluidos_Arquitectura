@@ -55,6 +55,18 @@ void Particle::setBlockIndexes(int cx, int cy, int cz) {
   blockIndexes[2] = cz;
 }
 
+void Particle::setVelocityVector(double vx, double vy, double vz) {
+  velocityVector[0] = vx;
+  velocityVector[1] = vy;
+  velocityVector[2] = vz;
+}
+
+void Particle::setHeadVector(double hvx, double hvy, double hvz) {
+  headVector[0] = hvx;
+  headVector[1] = hvy;
+  headVector[2] = hvz;
+}
+
 // Función para calcular los índices de bloque para cada partícula
 void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
                             std::vector<double> tamanoBloques) {
@@ -70,3 +82,22 @@ void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> n
     current_particle.setBlockIndexes(block_x, block_y, block_z);
   }
 }
+// Función para actualizar todas las partículas
+void movimientoParticulas(std::vector<Particle> &particles) {
+  for (auto &current_particle : particles) {
+    std::vector<double> position = current_particle.getPosition();
+    std::vector<double> velocity = current_particle.getVelocityVector();
+    std::vector<double> head_vector = current_particle.getHeadVector();
+    std::vector<double> acceleration = current_particle.getAcceleration();
+    // Para cada dimensión x, y, z (un solo bucle para actualizar los tres vectores, fusión de bucles)
+    for (int i=0; i < 3; ++i) {
+      position[i] += head_vector[i] * Paso_de_tiempo + acceleration[i] * std::pow(Paso_de_tiempo, 2);
+      velocity[i] = head_vector[i] + (acceleration[i] * Paso_de_tiempo) / 2;
+      head_vector[i] += acceleration[i] * Paso_de_tiempo;
+    }
+    current_particle.setPosition(position[0], position[1], position[2]);
+    current_particle.setVelocityVector(velocity[0], velocity[1], velocity[2]);
+    current_particle.setHeadVector(head_vector[0], head_vector[1], head_vector[2]);
+  }
+}
+
