@@ -17,6 +17,7 @@
   const int siete = 7;
   const int ocho = 8;
   const int nueve = 9;
+  const int diez = 10;
 
   //Declaración de constantes vectoriales de la simulación
   const std::array<float, 3> Aceleracion_Externa{0.0, -9.8, 0.0};

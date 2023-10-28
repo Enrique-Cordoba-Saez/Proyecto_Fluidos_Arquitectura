@@ -1,4 +1,6 @@
 #include "particle.hpp"
+
+// #include <math.h>
 #include <cmath>
 #include <iostream>
 #include "grid.hpp"
@@ -67,6 +69,12 @@ void Particle::setHeadVector(double hvx, double hvy, double hvz) {
   headVector[2] = hvz;
 }
 
+void Particle::setAcceleration(double ax, double ay, double az){
+  acceleration[0] = ax;
+  acceleration[1] = ay;
+  acceleration[2] = az;
+}
+
 // Función para calcular los índices de bloque para cada partícula
 void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
                             std::vector<double> tamanoBloques) {
@@ -82,6 +90,96 @@ void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> n
     current_particle.setBlockIndexes(block_x, block_y, block_z);
   }
 }
+
+// Función para actualizar las aceleraciones de particulas en base a
+//chocar con las paredes del recinte (Parte 3 del procesamiento de la simulación)
+void chocarParticulasRecinto(std::vector<Particle> &particles, std::vector<int>const & maximo_indice_bloque){
+  for (auto &current_particle : particles){
+    const std::vector<int> posiciones_particula = current_particle.getBlockIndexes();
+
+    double const new_position_x = current_particle.getPosition()[0] + current_particle.getHeadVector()[0] * Paso_de_tiempo;
+    current_particle.setPosition(new_position_x, current_particle.getPosition()[1], current_particle.getPosition()[2]);
+
+    double const new_position_y = current_particle.getPosition()[1] + current_particle.getHeadVector()[1] * Paso_de_tiempo;
+    current_particle.setPosition(current_particle.getPosition()[0], new_position_y, current_particle.getPosition()[2]);
+
+    double const new_position_z = current_particle.getPosition()[2] + current_particle.getHeadVector()[2] * Paso_de_tiempo;
+    current_particle.setPosition(current_particle.getPosition()[0], current_particle.getPosition()[1], new_position_z);
+
+    En_Eje_x(maximo_indice_bloque, current_particle, posiciones_particula, new_position_x);
+
+    En_Eje_y(maximo_indice_bloque, current_particle, posiciones_particula, new_position_y);
+
+    En_Eje_z(maximo_indice_bloque, current_particle, posiciones_particula, new_position_z);
+  }
+}
+
+// Función parte de chocarParticulasRecinto(clang.tidy)
+void En_Eje_z(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+              std::vector<int> const & posiciones_particula, double const new_position_z) {
+  if (posiciones_particula[2] == 0){
+    double const diferencia_con_limite = Tamano_de_particula - new_position_z + Limite_Inferior[2];
+    if (diferencia_con_limite > pow(diez, -diez)){
+          double const new_acceleration = current_particle.getAcceleration()[2] + Colisiones_De_Rigidez * diferencia_con_limite
+                                          - Amortiguamiento * current_particle.getVelocityVector()[2];
+          current_particle.setAcceleration(current_particle.getAcceleration()[0], current_particle.getAcceleration()[1],
+                                           new_acceleration);
+  }
+  }
+  if (posiciones_particula[2] == maximo_indice_bloque[2] - 1){
+  double const diferencia_con_limite = Tamano_de_particula - Limite_Superior[2] + new_position_z;
+  if (diferencia_con_limite > pow(diez, -diez)){
+          double const new_acceleration = current_particle.getAcceleration()[2] - Colisiones_De_Rigidez * diferencia_con_limite
+                                          - Amortiguamiento * current_particle.getVelocityVector()[2];
+          current_particle.setAcceleration(current_particle.getAcceleration()[0], current_particle.getAcceleration()[1],
+                                           new_acceleration);
+  }}
+}
+
+// Función parte de chocarParticulasRecinto(clang.tidy)
+void En_Eje_y(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+              std::vector<int> const & posiciones_particula, double const new_position_y) {
+  if (posiciones_particula[1] == 0){
+    double const diferencia_con_limite = Tamano_de_particula - new_position_y + Limite_Inferior[1];
+    if (diferencia_con_limite > pow(diez, -diez)){
+      double const new_acceleration = current_particle.getAcceleration()[1] + Colisiones_De_Rigidez * diferencia_con_limite
+                                      - Amortiguamiento * current_particle.getVelocityVector()[1];
+      current_particle.setAcceleration(current_particle.getAcceleration()[0], new_acceleration,
+                                     current_particle.getAcceleration()[2]);
+  }
+  }
+  if (posiciones_particula[1] == maximo_indice_bloque[1] - 1){
+    double const diferencia_con_limite = Tamano_de_particula - Limite_Superior[1] + new_position_y;
+    if (diferencia_con_limite > pow(diez, -diez)){
+        double const new_acceleration = current_particle.getAcceleration()[1] - Colisiones_De_Rigidez * diferencia_con_limite
+                                        - Amortiguamiento * current_particle.getVelocityVector()[1];
+        current_particle.setAcceleration(current_particle.getAcceleration()[0], new_acceleration,
+                                         current_particle.getAcceleration()[2]);
+  }}
+}
+
+// Función parte de chocarParticulasRecinto(clang.tidy)
+void En_Eje_x(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+              std::vector<int> const & posiciones_particula, double const new_position_x) {
+  if (posiciones_particula[0] == 0){
+    double const diferencia_con_limite = Tamano_de_particula - new_position_x + Limite_Inferior[0];
+    if (diferencia_con_limite > pow(diez, -diez)){
+      double const new_acceleration = current_particle.getAcceleration()[0] + Colisiones_De_Rigidez * diferencia_con_limite
+                                - Amortiguamiento * current_particle.getVelocityVector()[0];
+      current_particle.setAcceleration(new_acceleration, current_particle.getAcceleration()[1],
+                                       current_particle.getAcceleration()[2]);
+  }
+  }
+  if (posiciones_particula[0] == maximo_indice_bloque[0] - 1){
+    double const diferencia_con_limite = Tamano_de_particula - Limite_Superior[0] + new_position_x;
+    if (diferencia_con_limite > pow(diez, -diez)){
+      double const new_acceleration = current_particle.getAcceleration()[0] - Colisiones_De_Rigidez * diferencia_con_limite
+                                - Amortiguamiento * current_particle.getVelocityVector()[0];
+      current_particle.setAcceleration(new_acceleration, current_particle.getAcceleration()[1],
+                                       current_particle.getAcceleration()[2]);
+  }}
+}
+
 // Función para actualizar todas las partículas
 void movimientoParticulas(std::vector<Particle> &particles) {
   for (auto &current_particle : particles) {
