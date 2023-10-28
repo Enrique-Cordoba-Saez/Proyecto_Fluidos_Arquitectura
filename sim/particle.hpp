@@ -52,10 +52,22 @@ void En_Eje_x(std::vector<int> const & maximo_indice_bloque, Particle & current_
               std::vector<int> const & posiciones_particula, double new_position_x);
 
 void En_Eje_y(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
-              std::vector<int> const & posiciones_particula, double const new_position_y);
+              std::vector<int> const & posiciones_particula, double new_position_y);
 
 void En_Eje_z(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
-              std::vector<int> const & posiciones_particula, double const new_position_z);
+              std::vector<int> const & posiciones_particula, double new_position_z);
+
+void chocarParticulasRecintoParte5(std::vector<Particle> &particles, std::vector<int>const & maximo_indice_bloque);
+
+void En_Eje_x_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+                     std::vector<int> const & posiciones_particula);
+
+void En_Eje_y_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+                     std::vector<int> const & posiciones_particula);
+
+void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+                     std::vector<int> const & posiciones_particula);
+
 
 #endif // PARTICLE_HPP
 

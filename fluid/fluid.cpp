@@ -52,6 +52,7 @@ int main(int argc, const char* argv[]) {
     // 4. Movimiento de partículas.
     //movimientoParticulas(Particulas);
     // 5. Procesamiento de límites.
+    chocarParticulasRecintoParte5(Particulas, Numero_Bloques);
   }
   // procesador.escribirArchivo(valoresDobles);
 }

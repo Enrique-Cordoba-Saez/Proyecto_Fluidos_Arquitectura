@@ -92,9 +92,11 @@ void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> n
 }
 
 // Función para actualizar las aceleraciones de particulas en base a
-//chocar con las paredes del recinte (Parte 3 del procesamiento de la simulación)
+//chocar con las paredes del recinte (PARTE 3 del procesamiento de la simulación)
 void chocarParticulasRecinto(std::vector<Particle> &particles, std::vector<int>const & maximo_indice_bloque){
   for (auto &current_particle : particles){
+    //Aqui el vector "posiciones_particula" hace referencia a los indices del
+    // bloque en los que se encuentra la particula con la que estampos tratando
     const std::vector<int> posiciones_particula = current_particle.getBlockIndexes();
 
     double const new_position_x = current_particle.getPosition()[0] + current_particle.getHeadVector()[0] * Paso_de_tiempo;
@@ -135,7 +137,6 @@ void En_Eje_z(std::vector<int> const & maximo_indice_bloque, Particle & current_
                                            new_acceleration);
   }}
 }
-
 // Función parte de chocarParticulasRecinto(clang.tidy)
 void En_Eje_y(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
               std::vector<int> const & posiciones_particula, double const new_position_y) {
@@ -157,7 +158,6 @@ void En_Eje_y(std::vector<int> const & maximo_indice_bloque, Particle & current_
                                          current_particle.getAcceleration()[2]);
   }}
 }
-
 // Función parte de chocarParticulasRecinto(clang.tidy)
 void En_Eje_x(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
               std::vector<int> const & posiciones_particula, double const new_position_x) {
@@ -199,3 +199,98 @@ void movimientoParticulas(std::vector<Particle> &particles) {
   }
 }
 
+// Función para actualizar las velocidades y head vectors de particulas en base a
+//chocar con las paredes del recinte (PARTE CINCO del procesamiento de la simulación)
+void chocarParticulasRecintoParte5(std::vector<Particle> &particles, std::vector<int>const & maximo_indice_bloque){
+  for (auto &current_particle : particles){
+    const std::vector<int> posiciones_particula = current_particle.getBlockIndexes();
+
+    En_Eje_x_Parte5(maximo_indice_bloque, current_particle, posiciones_particula);
+
+    En_Eje_y_Parte5(maximo_indice_bloque, current_particle, posiciones_particula);
+
+    En_Eje_z_Parte5(maximo_indice_bloque, current_particle, posiciones_particula);
+  }
+}
+// Función parte de chocarParticulasRecintoParte5(clang.tidy)
+void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+              std::vector<int> const & posiciones_particula) {
+  if (posiciones_particula[2] == 0){
+    double const diferencia_con_limite = current_particle.getPosition()[2] - Limite_Inferior[2];
+    if (diferencia_con_limite < 0){
+      double const new_position_z = Limite_Inferior[2] - diferencia_con_limite;
+      current_particle.setPosition(current_particle.getAcceleration()[0], current_particle.getAcceleration()[1],
+                                   new_position_z);
+      current_particle.setVelocityVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1],
+                                         current_particle.getHeadVector()[2] * -1);
+      current_particle.setHeadVector(current_particle.getVelocityVector()[0], current_particle.getVelocityVector()[1],
+                                         current_particle.getVelocityVector()[2] * -1);
+    }
+  }
+  if (posiciones_particula[2] == maximo_indice_bloque[2] - 1){
+    double const diferencia_con_limite = Limite_Superior[2] - current_particle.getPosition()[2];
+    if (diferencia_con_limite < 0){
+      double const new_position_z = Limite_Superior[2] + diferencia_con_limite;
+      current_particle.setPosition(current_particle.getAcceleration()[0], current_particle.getAcceleration()[1],
+                                   new_position_z);
+      current_particle.setVelocityVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1],
+                                         current_particle.getHeadVector()[2] * -1);
+      current_particle.setHeadVector(current_particle.getVelocityVector()[0], current_particle.getVelocityVector()[1],
+                                     current_particle.getVelocityVector()[2] * -1);
+    }}
+}
+// Función parte de chocarParticulasRecintoParte5(clang.tidy)
+void En_Eje_y_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+                     std::vector<int> const & posiciones_particula) {
+  if (posiciones_particula[1] == 0){
+    double const diferencia_con_limite = current_particle.getPosition()[1] - Limite_Inferior[1];
+    if (diferencia_con_limite < 0){
+      double const new_position_y = Limite_Inferior[1] - diferencia_con_limite;
+      current_particle.setPosition(current_particle.getAcceleration()[0], current_particle.getAcceleration()[1],
+                                   new_position_y);
+      current_particle.setVelocityVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1] * -1,
+                                         current_particle.getHeadVector()[2]);
+      current_particle.setHeadVector(current_particle.getVelocityVector()[0], current_particle.getVelocityVector()[1]  * -1,
+                                     current_particle.getVelocityVector()[2]);
+    }
+  }
+  if (posiciones_particula[1] == maximo_indice_bloque[1] - 1){
+    double const diferencia_con_limite = Limite_Superior[1] - current_particle.getPosition()[1];
+    if (diferencia_con_limite < 0){
+      double const new_position_y = Limite_Superior[2] + diferencia_con_limite;
+      current_particle.setPosition(current_particle.getAcceleration()[0], new_position_y,
+                                   current_particle.getAcceleration()[2]);
+      current_particle.setVelocityVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1] * -1,
+                                         current_particle.getHeadVector()[2]);
+      current_particle.setHeadVector(current_particle.getVelocityVector()[0], current_particle.getVelocityVector()[1] * -1,
+                                     current_particle.getVelocityVector()[2]);
+    }}
+}
+
+// Función parte de chocarParticulasRecintoParte5(clang.tidy)
+void En_Eje_x_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
+              std::vector<int> const & posiciones_particula) {
+  if (posiciones_particula[0] == 0){
+    double const diferencia_con_limite = current_particle.getPosition()[0] - Limite_Inferior[0];
+    if (diferencia_con_limite < 0){
+      double const new_position_x = Limite_Inferior[0] - diferencia_con_limite;
+      current_particle.setPosition(new_position_x, current_particle.getAcceleration()[1],
+                                   current_particle.getAcceleration()[2]);
+      current_particle.setVelocityVector(current_particle.getHeadVector()[0] * -1, current_particle.getHeadVector()[1],
+                                         current_particle.getHeadVector()[2]);
+      current_particle.setHeadVector(current_particle.getVelocityVector()[0] * -1, current_particle.getVelocityVector()[1],
+                                     current_particle.getVelocityVector()[2]);
+    }
+  }
+  if (posiciones_particula[0] == maximo_indice_bloque[0] - 1){
+    double const diferencia_con_limite = Limite_Superior[0] - current_particle.getPosition()[0];
+    if (diferencia_con_limite < 0){
+      double const new_position_x = Limite_Superior[0] + diferencia_con_limite;
+      current_particle.setPosition(new_position_x, current_particle.getAcceleration()[1],
+                                   current_particle.getAcceleration()[2]);
+      current_particle.setVelocityVector(current_particle.getHeadVector()[0] * -1, current_particle.getHeadVector()[1],
+                                         current_particle.getHeadVector()[2]);
+      current_particle.setHeadVector(current_particle.getVelocityVector()[0] * -1, current_particle.getVelocityVector()[1],
+                                     current_particle.getVelocityVector()[2]);
+    }}
+}
