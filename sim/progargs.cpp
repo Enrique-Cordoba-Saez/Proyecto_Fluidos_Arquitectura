@@ -110,21 +110,58 @@ void ProgArgs::imprimirDatos(double masa_particula, double longitud_suavizado,
 }
 
 // Método para escribir todos los datos finales en el archivo de salida
-void ProgArgs::escribirArchivo(std::vector<double> valoresDoble) {
-  // Transformar parámetros de vuelta a simple precisión
-  std::vector<float> const valoresSimple(valoresDoble.begin(), valoresDoble.end());
+void ProgArgs::escribirArchivo(std::vector<Particle> const& particles) {
   // Abrir archivo en modo binario
   std::ofstream archivo_out(archivoSalida, std::ios::binary);
   if (!archivo_out) {
-    std::cerr << "Error: Cannot open" << archivoSalida << " for writing\n";
+    std::cerr << "Error: Cannot open " << archivoSalida << " for writing\n";
     exit(-4);
   }
-  for (const auto& valor : valoresSimple) {
-    std::array<char, sizeof(float)> buffer{};
-    std::memcpy(buffer.data(), &valor, sizeof(float));
-    archivo_out.write(buffer.data(), buffer.size());
-  }
+  // Escribir header del archivo
+  escribirHeader(archivo_out);
+  // Escribir los parámetros double de las partículas en formato float
+  escribirParametros(particles, archivo_out);
   archivo_out.close();
+}
+
+void ProgArgs::escribirParametros(std::vector<Particle> const & particles, std::ofstream & archivo_out) {
+  for (const auto& particle : particles) {
+    std::vector<double> const position = particle.getPosition();
+    std::vector<double> const head_vector = particle.getHeadVector();
+    std::vector<double> const velocity = particle.getVelocityVector();
+    std::array<char, sizeof(float)> buffer{};
+    // Escribir posición
+    for (int i = 0; i < 3; ++i) {
+      auto current_position = static_cast<float>(position[i]);
+      std::memcpy(buffer.data(), &current_position, sizeof(float));
+      archivo_out.write(buffer.data(), buffer.size());
+    }
+    // Escribir head vector
+    for (int i = 0; i < 3; ++i) {
+      auto current_head_vector = static_cast<float>(head_vector[i]);
+      std::memcpy(buffer.data(), &current_head_vector, sizeof(float));
+      archivo_out.write(buffer.data(), buffer.size());
+    }
+    // Escribir velocidad
+    for (int i = 0; i < 3; ++i) {
+      auto current_velocity = static_cast<float>(velocity[i]);
+      std::memcpy(buffer.data(), &current_velocity, sizeof(float));
+      archivo_out.write(buffer.data(), buffer.size());
+    }
+  }
+}
+
+void ProgArgs::escribirHeader(std::ofstream & archivo_out) const {
+  // Escribir ppm
+  std::array<char, sizeof(float)> bufferSimple{};
+  auto const simple_ppm = static_cast<float>(ppm);
+  memcpy(bufferSimple.data(), &simple_ppm, sizeof(float));
+  archivo_out.write(bufferSimple.data(), bufferSimple.size());
+
+  // Escribir num_particles
+  std::array<char, sizeof(int)> bufferInt{};
+  memcpy(bufferInt.data(), &num_particles, sizeof(int));
+  archivo_out.write(bufferInt.data(), bufferInt.size());
 }
 
 int ProgArgs::getTimesteps() const {

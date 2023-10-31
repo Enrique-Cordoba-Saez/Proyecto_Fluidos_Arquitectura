@@ -17,7 +17,7 @@ int main(int argc, const char* argv[]) {
   std::vector<double> const valoresDobles = procesador.leerArchivo();
 
   //Declaración de parámetros de la simulación
-  //double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
+  double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
   double const Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
   const std::vector<int> Numero_Bloques = {int(std::floor((Limite_Superior[0]-Limite_Inferior[0])/Longitud_Suavizado_h)),
                                               int(std::floor((Limite_Superior[1]-Limite_Inferior[1])/Longitud_Suavizado_h)),
@@ -54,5 +54,5 @@ int main(int argc, const char* argv[]) {
     // 5. Procesamiento de límites.
     chocarParticulasRecintoParte5(Particulas, Numero_Bloques);
   }
-  // procesador.escribirArchivo(valoresDobles);
+  procesador.escribirArchivo(Particulas);
 }
