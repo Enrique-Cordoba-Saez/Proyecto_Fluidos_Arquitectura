@@ -100,13 +100,10 @@ void chocarParticulasRecinto(std::vector<Particle> &particles, std::vector<int>c
     const std::vector<int> posiciones_particula = current_particle.getBlockIndexes();
 
     double const new_position_x = current_particle.getPosition()[0] + current_particle.getHeadVector()[0] * Paso_de_tiempo;
-    current_particle.setPosition(new_position_x, current_particle.getPosition()[1], current_particle.getPosition()[2]);
 
     double const new_position_y = current_particle.getPosition()[1] + current_particle.getHeadVector()[1] * Paso_de_tiempo;
-    current_particle.setPosition(current_particle.getPosition()[0], new_position_y, current_particle.getPosition()[2]);
 
     double const new_position_z = current_particle.getPosition()[2] + current_particle.getHeadVector()[2] * Paso_de_tiempo;
-    current_particle.setPosition(current_particle.getPosition()[0], current_particle.getPosition()[1], new_position_z);
 
     En_Eje_x(maximo_indice_bloque, current_particle, posiciones_particula, new_position_x);
 
