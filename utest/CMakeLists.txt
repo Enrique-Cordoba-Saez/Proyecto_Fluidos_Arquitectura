@@ -3,7 +3,9 @@
 add_executable(utest
         progargs_test.cpp
         grid_test.cpp
-        block_test.cpp)
+        block_test.cpp
+        particle_test.cpp
+)
 # Library dependencies
 target_link_libraries (utest
         PRIVATE
