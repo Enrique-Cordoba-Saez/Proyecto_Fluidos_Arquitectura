@@ -11,6 +11,8 @@
   const float Viscosidad = 0.4;
   const float Tamano_de_particula = 0.0002;
   const float Paso_de_tiempo = 0.001;
+  const float Gravedad = 9.8; //Librería?
+  const float Pi = 3.141216; //Librería?
 
   const int cinco = 5;
   const int seis = 6;

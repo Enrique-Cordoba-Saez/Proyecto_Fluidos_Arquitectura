@@ -44,8 +44,11 @@ int main(int argc, const char* argv[]) {
   for (int i = 1; i <= time_steps; i++) {
     // 1. Reposicionamiento de cada partícula en la malla.
     reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques);
+
     // 2. Cálculo de fuerzas y aceleraciones para cada partícula.
-    //calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m);
+    std::cout << "----------------------------------------------------------------------------" << std::endl;
+    std::cout << "Iteracion " << i << std::endl;
+    calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m);
 
     // 3. Procesamiento de colisiones.
     chocarParticulasRecinto(Particulas, Numero_Bloques);
@@ -54,5 +57,5 @@ int main(int argc, const char* argv[]) {
     // 5. Procesamiento de límites.
     chocarParticulasRecintoParte5(Particulas, Numero_Bloques);
   }
-  procesador.escribirArchivo(Particulas);
+  // procesador.escribirArchivo(valoresDobles);
 }

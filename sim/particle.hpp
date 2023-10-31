@@ -28,11 +28,6 @@ class Particle {
     void setVelocityVector(double vx, double vy, double vz);
     void setHeadVector(double hvx, double hvy, double hvz);
 
-    void reposition();
-    void incremento_densidad(); // estoy mezclando inglés y español
-    void transformacion_densidad();
-    void transferencia_aceleracion();
-
   private:
     double density;
     std::vector<double> acceleration;
@@ -67,6 +62,23 @@ void En_Eje_y_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
 
 void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & current_particle,
                      std::vector<int> const & posiciones_particula);
+
+
+
+// CALCULO DE ACELERACIONES
+int calculoAceleraciones(std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
+                         double const Masa_Particula_m);
+
+int incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
+                       double const Masa_Particula_m);
+
+int transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
+                           double const Masa_Particula_m);
+
+int transferenciaAcerlacion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
+                            double const Masa_Particula_m);
+
+void printParticle(std::vector<Particle>& particulas);
 
 
 #endif // PARTICLE_HPP
