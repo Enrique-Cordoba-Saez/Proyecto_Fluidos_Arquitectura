@@ -296,138 +296,134 @@ void En_Eje_x_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
 
 
 
-
-
 // CALCULO DE ACELERACIONES
-int calculoAceleraciones(std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
+void calculoAceleraciones(std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
                          double const Masa_Particula_m) {
+
+  printParticle(particulas, 0);
 
   std::cout << " " << std::endl;
   std::cout << "----> INICIACION DE ACELERACIONES" << std::endl;
-  for (size_t i = 0; i < particulas.size(); ++i) { //Iniciación de aceleraciones
-    //std::cout << "--------> Para particula " << i << std::endl;
-    particulas[i].setAcceleration(0.0, Gravedad, 0.0);
+  for (size_t i = 0; i < particulas.size(); ++i) {
+    particulas[i].setAcceleration(0.0, -Gravedad, 0.0);
     particulas[i].setDensity(0.0);
   }
-  printParticle(particulas);
-
+  printParticle(particulas, 0);
 
   std::cout << " " << std::endl;
   std::cout << "----> INCREMENTO DE DENSIDADES" << std::endl;
   for (size_t i = 0; i < particulas.size(); ++i) {
-    //std::cout << "--------> Para particula " << i << std::endl;
-    incrementoDensidad(i,particulas[i], particulas, Longitud_Suavizado_h, Masa_Particula_m);
+    incrementoDensidad(i,particulas[i], particulas, Longitud_Suavizado_h);
   }
-  printParticle(particulas);
+  printParticle(particulas, 0);
 
   std::cout << " " << std::endl;
   std::cout << "----> TRANSFORMACION DE DENSIDADES" << std::endl;
   for (size_t i = 0; i < particulas.size(); ++i) {
-    //std::cout << "--------> Para particula " << i << std::endl;
     transformacionDensidad(particulas[i], Longitud_Suavizado_h, Masa_Particula_m);
   }
-  printParticle(particulas);
-
+  printParticle(particulas, 0);
 
   std::cout << " " << std::endl;
   std::cout << "----> TRANSFERENCIA DE ACELERACIONES" << std::endl;
   for (size_t i = 0; i < particulas.size() - 1; ++i) {
-    //std::cout << "--------> Para particula " << i << std::endl;
-    for (size_t j = i + 1; j <= particulas.size() - 1; ++j) { //Este loop se puede meter dentro de transferenciaAceleracion
-      double h2 = Longitud_Suavizado_h * Longitud_Suavizado_h;
-      double r = std::pow(particulas[i].getAcceleration()[0] - particulas[j].getAcceleration()[0], 2) +
-                 std::pow(particulas[i].getAcceleration()[1] - particulas[j].getAcceleration()[1], 2) +
-                 std::pow(particulas[i].getAcceleration()[2] - particulas[j].getAcceleration()[2], 2);
-      if (r < h2) {
-        //std::cout << "----------------> Con  particula " << j << std::endl;
-        transferenciaAcerlacion(particulas[i], particulas[j], Longitud_Suavizado_h,
-                                Masa_Particula_m);
-      }
-    }
+    transferenciaAceleracion(i, particulas[i], particulas, Longitud_Suavizado_h, Masa_Particula_m);
   }
-  printParticle(particulas);
-
-  return 1;
+  printParticle(particulas, 0);
 }
 
-int incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
-                       double const Masa_Particula_m) {
-  for (size_t j = index + 1; j <= particulas.size() - 1; ++j) { //Este - 1 tengo que revisarlo, algo pasa con la última partícula
-    //std::cout << "--------------- Con la particula " << j << std::endl;
+void incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h) {
+  for (size_t j = index + 1; j < particulas.size(); ++j) {
     Particle & particula2 = particulas[j];
     double h2 = Longitud_Suavizado_h * Longitud_Suavizado_h;
     double r = std::pow(particula.getPosition()[0] - particula2.getPosition()[0], 2) +
                std::pow(particula.getPosition()[1] - particula2.getPosition()[1], 2) +
                std::pow(particula.getPosition()[2] - particula2.getPosition()[2], 2);
-
-    double var_den = std::pow(h2 - r, 3);
-
     if (r < h2) {
+      double var_den = std::pow(h2 - r, 3);
       particula.setDensity(particula.getDensity() + var_den);
       particula2.setDensity(particula.getDensity() + var_den);
     }
   }
-
-  return Masa_Particula_m; //solo para que no me de error, lo tengo que cambiar
 }
 
-int transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
+void transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
                            double const Masa_Particula_m){
   double factor = (particula.getDensity() + std::pow(Longitud_Suavizado_h, seis))
                   * (315 / (64 * Pi * std::pow(Longitud_Suavizado_h, nueve)))
                   * Masa_Particula_m;
   particula.setDensity(factor);
-  return 1;
 }
 
-int transferenciaAcerlacion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
-                            double const Masa_Particula_m){
-  double distanciaSquared = std::max(
-      std::pow(particula.getPosition()[0] - particula2.getPosition()[0], 2) +
-          std::pow(particula.getPosition()[1] - particula2.getPosition()[1], 2) +
-          std::pow(particula.getPosition()[2] - particula2.getPosition()[2], 2),
-      1e-12
-  );
-
-  double factor = 15 / (Pi * std::pow(Longitud_Suavizado_h, 6)) * Masa_Particula_m * ((std::pow(Longitud_Suavizado_h - std::sqrt(distanciaSquared), 2) / std::sqrt(distanciaSquared)));
-
-  double var_ax = ((particula.getPosition()[0] - particula2.getPosition()[0]) * factor *
-                      (particula.getDensity() + particula2.getDensity() - Densidad_De_Fluido) +
-                  (particula.getVelocityVector()[0] - particula2.getVelocityVector()[0]) *
-                      (45 / (Pi * std::pow(Longitud_Suavizado_h, 6))) * Viscosidad * Masa_Particula_m) / (particula.getDensity() - particula2.getDensity() + 1);
-
-  double var_ay = ((particula.getPosition()[1] - particula2.getPosition()[1]) * factor *
-                      (particula.getDensity() + particula2.getDensity() - Densidad_De_Fluido) +
-                  (particula.getVelocityVector()[1] - particula2.getVelocityVector()[1]) *
-                      (45 / (Pi * std::pow(Longitud_Suavizado_h, 6))) * Viscosidad * Masa_Particula_m) / (particula.getDensity() - particula2.getDensity() + 1);
-
-  double var_az = ((particula.getPosition()[2] - particula2.getPosition()[2]) * factor *
-                      (particula.getDensity() + particula2.getDensity() - Densidad_De_Fluido) +
-                  (particula.getVelocityVector()[2] - particula2.getVelocityVector()[2]) *
-                      (45 / (Pi * std::pow(Longitud_Suavizado_h, 6))) * Viscosidad * Masa_Particula_m) / (particula.getDensity() - particula2.getDensity() + 1);
-
-  particula.setAcceleration(particula.getAcceleration()[0] + var_ax,
-                            particula.getAcceleration()[1] + var_ay,
-                            particula.getAcceleration()[2] + var_az);
-
-  particula2.setAcceleration(particula2.getAcceleration()[0] - var_ax,
-                             particula2.getAcceleration()[1] - var_ay,
-                             particula2.getAcceleration()[2] - var_az);
-  return 1;
+void transferenciaAceleracion(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
+                            double const Masa_Particula_m) {
+  for (size_t j = index + 1; j < particulas.size(); ++j) {
+    Particle & particula2 = particulas[j];
+    double h2 = Longitud_Suavizado_h * Longitud_Suavizado_h;
+    double r = std::pow(particula.getPosition()[0] - particula2.getPosition()[0], 2) +
+               std::pow(particula.getPosition()[1] - particula2.getPosition()[1], 2) +
+               std::pow(particula.getPosition()[2] - particula2.getPosition()[2], 2);
+    if (r < h2) {
+      calculoTransferenciaAceleracion(particula, particula2, Longitud_Suavizado_h, Masa_Particula_m);
+    }
+  }
 }
 
-void printParticle(std::vector<Particle>& particulas){
-  std::cout << "Particula 1 (index 0)" << std::endl;
-  std::vector<double> aceleracion0 = particulas[0].getAcceleration();
-  std::vector<double> posicion0 = particulas[0].getPosition();
-  std::vector<double> vectorHead0 = particulas[0].getHeadVector();
-  std::vector<double> velocidad0 = particulas[0].getVelocityVector();
-  std::vector<int> bloque0 = particulas[0].getBlockIndexes();
-  double densidad = particulas[0].getDensity();
-  std::cout << "----> Aceleracion " << aceleracion0[0] << " " << aceleracion0[1] << " " << aceleracion0[2] << std::endl;
+//Se puede reducir la longitud, está así para que se vea claro
+void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
+                                    double const Masa_Particula_m){
+
+  double r2 = std::pow(particula.getPosition()[0] - particula2.getPosition()[0], 2) +
+             std::pow(particula.getPosition()[1] - particula2.getPosition()[1], 2) +
+             std::pow(particula.getPosition()[2] - particula2.getPosition()[2], 2);
+
+  double dist = std::max(r2, 1e-12);
+
+  double factor1x = particula.getPosition()[0] - particula2.getPosition()[0];
+  double factor1y = particula.getPosition()[1] - particula2.getPosition()[1];
+  double factor1z = particula.getPosition()[2] - particula2.getPosition()[2];
+
+  double factor2 = 15 / (Pi * std::pow(Longitud_Suavizado_h, 6));
+
+  double factor3 = (3 * Masa_Particula_m * Presion_De_Rigidez) / 2;
+
+  double factor4 = std::pow((Longitud_Suavizado_h - dist), 2) / dist;
+
+  double factor5 = particula.getDensity() + particula2.getDensity() - (2*Densidad_De_Fluido);
+
+  double factor6x = particula2.getVelocityVector()[0] - particula.getVelocityVector()[0];
+  double factor6y = particula2.getVelocityVector()[1] - particula.getVelocityVector()[1];
+  double factor6z = particula2.getVelocityVector()[2] - particula2.getVelocityVector()[2];
+
+  double factor7 = (45 / (Pi * std::pow(Longitud_Suavizado_h, 6))) * Viscosidad * Masa_Particula_m;
+
+  double factor8 = particula.getDensity() * particula2.getDensity();
+
+  double resultx = (factor1x*factor2*factor3*factor4*factor5+factor6x*factor7)/factor8;
+  double resulty = (factor1y*factor2*factor3*factor4*factor5+factor6y*factor7)/factor8;
+  double resultz = (factor1z*factor2*factor3*factor4*factor5+factor6z*factor7)/factor8;
+
+  particula.setAcceleration(particula.getAcceleration()[0] + resultx,
+                            particula.getAcceleration()[1] + resulty,
+                            particula.getAcceleration()[2] + resultz);
+
+  particula2.setAcceleration(particula2.getAcceleration()[0] - resultx,
+                             particula2.getAcceleration()[1] - resulty,
+                             particula2.getAcceleration()[2] - resultz);
+
+}
+
+void printParticle(std::vector<Particle>& particulas, int index){
+  std::cout << "Particula con index " << index << std::endl;
+  std::vector<double> aceleracion0 = particulas[index].getAcceleration();
+  std::vector<double> posicion0 = particulas[index].getPosition();
+  std::vector<double> vectorHead0 = particulas[index].getHeadVector();
+  std::vector<double> velocidad0 = particulas[index].getVelocityVector();
+  double densidad = particulas[index].getDensity();
+
   std::cout << "----> Posicion " << posicion0[0] << " " << posicion0[1] << " " << posicion0[2] << std::endl;
   std::cout << "----> Head Vector " << vectorHead0[0] << " " << vectorHead0[1] << " " << vectorHead0[2] << std::endl;
   std::cout << "----> Velocidad " << velocidad0[0] << " " << velocidad0[1] << " " << velocidad0[2] << std::endl;
-  std::cout << "----> Bloque " << bloque0[0] << " " << bloque0[1] << " " << bloque0[2] << std::endl;
   std::cout << "----> Densidad " << densidad << std::endl;
+  std::cout << "----> Aceleracion " << aceleracion0[0] << " " << aceleracion0[1] << " " << aceleracion0[2] << std::endl;
 }

@@ -66,19 +66,21 @@ void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
 
 
 // CALCULO DE ACELERACIONES
-int calculoAceleraciones(std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
+void calculoAceleraciones(std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
                          double const Masa_Particula_m);
 
-int incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
-                       double const Masa_Particula_m);
+void incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h);
 
-int transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
+void transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
                            double const Masa_Particula_m);
 
-int transferenciaAcerlacion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
+void transferenciaAceleracion(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
                             double const Masa_Particula_m);
 
-void printParticle(std::vector<Particle>& particulas);
+void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
+                                    double const Masa_Particula_m);
+
+void printParticle(std::vector<Particle>& particulas, int index);
 
 
 #endif // PARTICLE_HPP
