@@ -326,10 +326,11 @@ void calculoAceleraciones(std::vector<Particle>& particulas, double const Longit
 
   std::cout << " " << std::endl;
   std::cout << "----> TRANSFERENCIA DE ACELERACIONES" << std::endl;
-  for (size_t i = 0; i < particulas.size() - 1; ++i) {
+  for (size_t i = 0; i < particulas.size(); ++i) {
     transferenciaAceleracion(i, particulas[i], particulas, Longitud_Suavizado_h, Masa_Particula_m);
   }
   printParticle(particulas, 0);
+  printParticle(particulas, 3130);
 }
 
 void incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h) {
@@ -377,7 +378,7 @@ void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, 
              std::pow(particula.getPosition()[1] - particula2.getPosition()[1], 2) +
              std::pow(particula.getPosition()[2] - particula2.getPosition()[2], 2);
 
-  double dist = std::max(r2, 1e-12);
+  double dist = std::sqrt(std::max(r2, 1e-12));
 
   double factor1x = particula.getPosition()[0] - particula2.getPosition()[0];
   double factor1y = particula.getPosition()[1] - particula2.getPosition()[1];
@@ -393,7 +394,7 @@ void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, 
 
   double factor6x = particula2.getVelocityVector()[0] - particula.getVelocityVector()[0];
   double factor6y = particula2.getVelocityVector()[1] - particula.getVelocityVector()[1];
-  double factor6z = particula2.getVelocityVector()[2] - particula2.getVelocityVector()[2];
+  double factor6z = particula2.getVelocityVector()[2] - particula.getVelocityVector()[2];
 
   double factor7 = (45 / (Pi * std::pow(Longitud_Suavizado_h, 6))) * Viscosidad * Masa_Particula_m;
 

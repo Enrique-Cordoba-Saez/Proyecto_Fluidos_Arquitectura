@@ -1,6 +1,7 @@
 #ifndef PROYECTO_FLUIDOS_ARQUITECTURA_GRID_HPP
 #define PROYECTO_FLUIDOS_ARQUITECTURA_GRID_HPP
 #include <array>
+#include <cmath>
 
 //Declaración de constantes escalares de la simulación
   const float Multiplicador_De_Radio = 1.695;
@@ -12,7 +13,7 @@
   const float Tamano_de_particula = 0.0002;
   const float Paso_de_tiempo = 0.001;
   const float Gravedad = 9.8; //Librería?
-  const float Pi = 3.141592654; //Librería?
+  const float Pi = M_PI; //Librería?
 
   const int cinco = 5;
   const int seis = 6;

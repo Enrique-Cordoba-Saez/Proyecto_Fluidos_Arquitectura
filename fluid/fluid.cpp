@@ -1,13 +1,15 @@
 #include <iostream>
 #include <vector>
-#include <span>
 #include <cmath>
 #include "sim/progargs.hpp"
 #include "sim/particle.hpp"
 #include "sim/grid.hpp"
+#include <chrono>
 
 
 int main(int argc, const char* argv[]) {
+  // Registra el tiempo de inicio
+  auto start = std::chrono::high_resolution_clock::now();
 
   std::span const args_view{argv, static_cast<size_t>(argc)};
   std::vector const args(args_view.begin() + 1, args_view.end());
@@ -53,9 +55,18 @@ int main(int argc, const char* argv[]) {
     // 3. Procesamiento de colisiones.
     chocarParticulasRecinto(Particulas, Numero_Bloques);
     // 4. Movimiento de partículas.
-    //movimientoParticulas(Particulas);
+    movimientoParticulas(Particulas);
     // 5. Procesamiento de límites.
     chocarParticulasRecintoParte5(Particulas, Numero_Bloques);
   }
-  // procesador.escribirArchivo(valoresDobles);
+  procesador.escribirArchivo(Particulas);
+
+  // Registra el tiempo de finalización
+  auto end = std::chrono::high_resolution_clock::now();
+
+  // Calcula la duración del tiempo de ejecución en segundos
+  auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
+
+  // Imprime el tiempo de ejecución en segundos
+  std::cout << "Tiempo de ejecucion: " << duration << " segundos" << std::endl;
 }
