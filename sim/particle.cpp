@@ -219,11 +219,11 @@ void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
     double const diferencia_con_limite = current_particle.getPosition()[2] - Limite_Inferior[2];
     if (diferencia_con_limite < 0){
       double const new_position_z = Limite_Inferior[2] - diferencia_con_limite;
-      current_particle.setPosition(current_particle.getAcceleration()[0], current_particle.getAcceleration()[1],
+      current_particle.setPosition(current_particle.getPosition()[0], current_particle.getPosition()[1],
                                    new_position_z);
       current_particle.setHeadVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1],
                                          current_particle.getHeadVector()[2] * -1);
-      current_particle.setHeadVector(current_particle.getVelocityVector()[0], current_particle.getVelocityVector()[1],
+      current_particle.setVelocityVector(current_particle.getVelocityVector()[0], current_particle.getVelocityVector()[1],
                                          current_particle.getVelocityVector()[2] * -1);
     }
   }
@@ -231,7 +231,7 @@ void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
     double const diferencia_con_limite = Limite_Superior[2] - current_particle.getPosition()[2];
     if (diferencia_con_limite < 0){
       double const new_position_z = Limite_Superior[2] + diferencia_con_limite;
-      current_particle.setPosition(current_particle.getAcceleration()[0], current_particle.getAcceleration()[1],
+      current_particle.setPosition(current_particle.getPosition()[0], current_particle.getPosition()[1],
                                    new_position_z);
       current_particle.setHeadVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1],
                                          current_particle.getHeadVector()[2] * -1);
@@ -246,8 +246,8 @@ void En_Eje_y_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
     double const diferencia_con_limite = current_particle.getPosition()[1] - Limite_Inferior[1];
     if (diferencia_con_limite < 0){
       double const new_position_y = Limite_Inferior[1] - diferencia_con_limite;
-      current_particle.setPosition(current_particle.getAcceleration()[0],new_position_y,
-                                   current_particle.getAcceleration()[2]);
+      current_particle.setPosition(current_particle.getPosition()[0],new_position_y,
+                                   current_particle.getPosition()[2]);
       current_particle.setHeadVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1] * -1,
                                          current_particle.getHeadVector()[2]);
       current_particle.setVelocityVector(current_particle.getVelocityVector()[0], current_particle.getVelocityVector()[1]  * -1,
@@ -258,8 +258,8 @@ void En_Eje_y_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
     double const diferencia_con_limite = Limite_Superior[1] - current_particle.getPosition()[1];
     if (diferencia_con_limite < 0){
       double const new_position_y = Limite_Superior[2] + diferencia_con_limite;
-      current_particle.setPosition(current_particle.getAcceleration()[0], new_position_y,
-                                   current_particle.getAcceleration()[2]);
+      current_particle.setPosition(current_particle.getPosition()[0], new_position_y,
+                                   current_particle.getPosition()[2]);
       current_particle.setHeadVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1] * -1,
                                          current_particle.getHeadVector()[2]);
       current_particle.setVelocityVector(current_particle.getVelocityVector()[0], current_particle.getVelocityVector()[1] * -1,
@@ -273,8 +273,8 @@ void En_Eje_x_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
     double const diferencia_con_limite = current_particle.getPosition()[0] - Limite_Inferior[0];
     if (diferencia_con_limite < 0){
       double const new_position_x = Limite_Inferior[0] - diferencia_con_limite;
-      current_particle.setPosition(new_position_x, current_particle.getAcceleration()[1],
-                                   current_particle.getAcceleration()[2]);
+      current_particle.setPosition(new_position_x, current_particle.getPosition()[1],
+                                   current_particle.getPosition()[2]);
       current_particle.setHeadVector(current_particle.getHeadVector()[0] * -1, current_particle.getHeadVector()[1],
                                          current_particle.getHeadVector()[2]);
       current_particle.setVelocityVector(current_particle.getVelocityVector()[0] * -1, current_particle.getVelocityVector()[1],
@@ -285,8 +285,8 @@ void En_Eje_x_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
     double const diferencia_con_limite = Limite_Superior[0] - current_particle.getPosition()[0];
     if (diferencia_con_limite < 0){
       double const new_position_x = Limite_Superior[0] + diferencia_con_limite;
-      current_particle.setPosition(new_position_x, current_particle.getAcceleration()[1],
-                                   current_particle.getAcceleration()[2]);
+      current_particle.setPosition(new_position_x, current_particle.getPosition()[1],
+                                   current_particle.getPosition()[2]);
       current_particle.setHeadVector(current_particle.getHeadVector()[0] * -1, current_particle.getHeadVector()[1],
                                          current_particle.getHeadVector()[2]);
       current_particle.setVelocityVector(current_particle.getVelocityVector()[0] * -1, current_particle.getVelocityVector()[1],
@@ -343,7 +343,7 @@ void incrementoDensidad(int index, Particle& particula, std::vector<Particle>& p
     if (r < h2) {
       double var_den = std::pow(h2 - r, 3);
       particula.setDensity(particula.getDensity() + var_den);
-      particula2.setDensity(particula.getDensity() + var_den);
+      particula2.setDensity(particula2.getDensity() + var_den);
     }
   }
 }
