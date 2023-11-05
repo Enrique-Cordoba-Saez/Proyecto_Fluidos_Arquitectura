@@ -28,7 +28,8 @@ class ProgArgs {
     [[nodiscard]] int getTimesteps() const;
     [[nodiscard]] double getPpm() const;
     [[nodiscard]] int getNumParticles() const;
-
+    [[nodiscard]] std::string getArchivoEntrada() const;
+    [[nodiscard]] std::string getArchivoSalida() const;
 };
 
 #endif //PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP

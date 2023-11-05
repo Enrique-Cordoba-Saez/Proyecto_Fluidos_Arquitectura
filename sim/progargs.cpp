@@ -3,7 +3,6 @@
 #include <cstring>
 #include <vector>
 #include <array>
-#include <span>
 #include "progargs.hpp"
 
 
@@ -174,4 +173,12 @@ double ProgArgs::getPpm() const {
 
 int ProgArgs::getNumParticles() const {
   return num_particles;
+}
+
+std::string ProgArgs:: getArchivoEntrada() const {
+  return archivoEntrada;
+}
+
+std::string ProgArgs:: getArchivoSalida() const {
+  return archivoSalida;
 }
