@@ -37,8 +37,8 @@ class Particle {
     std::vector<int> blockIndexes;
 };
 
-void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
-                            std::vector<double> tamanoBloques);
+std::vector<int> reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
+                                        std::vector<double> tamanoBloques, std::vector<std::vector<std::vector<std::vector<int>>>> &Bloques);
 void movimientoParticulas(std::vector<Particle> &particles);
 
 void chocarParticulasRecinto(std::vector<Particle> &particles, std::vector<int>const & maximo_indice_bloque);
@@ -67,18 +67,18 @@ void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
 
 // CALCULO DE ACELERACIONES
 void calculoAceleraciones(std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
-                         double const Masa_Particula_m);
+                          double const Masa_Particula_m);
 
 void incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h);
 
 void transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
-                           double const Masa_Particula_m);
-
-void transferenciaAceleracion(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
                             double const Masa_Particula_m);
 
+void transferenciaAceleracion(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
+                              double const Masa_Particula_m);
+
 void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
-                                    double const Masa_Particula_m);
+                                     double const Masa_Particula_m);
 
 void printParticle(std::vector<Particle>& particulas, int index);
 

@@ -21,15 +21,12 @@ int main(int argc, const char* argv[]) {
   //Declaración de parámetros de la simulación
   double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
   double const Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
-  const std::vector<int> Numero_Bloques = {int(std::floor((Limite_Superior[0]-Limite_Inferior[0])/Longitud_Suavizado_h)),
-                                              int(std::floor((Limite_Superior[1]-Limite_Inferior[1])/Longitud_Suavizado_h)),
-                                              int(std::floor((Limite_Superior[2]-Limite_Inferior[2])/Longitud_Suavizado_h))
-  };
+  const std::vector<int> Numero_Bloques = calcularNumBloques(Longitud_Suavizado_h);
   const std::vector<double> Tamano_Bloques = {(Limite_Superior[0]-Limite_Inferior[0])/double(Numero_Bloques[0]),
                                               (Limite_Superior[1]-Limite_Inferior[1])/double(Numero_Bloques[1]),
                                               (Limite_Superior[2]-Limite_Inferior[2])/double(Numero_Bloques[2])
   };
-
+  auto Bloques = crearBloques(Numero_Bloques);
   procesador.imprimirDatos(Masa_Particula_m, Longitud_Suavizado_h,
                            Numero_Bloques, Tamano_Bloques);
 
@@ -45,8 +42,8 @@ int main(int argc, const char* argv[]) {
   int const time_steps = procesador.getTimesteps();
   for (int i = 1; i <= time_steps; i++) {
     // 1. Reposicionamiento de cada partícula en la malla.
-    reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques);
-
+    std::vector<int> const colindantes = reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques, Bloques);
+    //printBloques(Bloques);
     // 2. Cálculo de fuerzas y aceleraciones para cada partícula.
     std::cout << "----------------------------------------------------------------------------" << std::endl;
     std::cout << "Iteracion " << i << std::endl;

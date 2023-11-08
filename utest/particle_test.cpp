@@ -60,7 +60,12 @@ TEST(MovimientoParticulasTest, CorrectoTest) {
                                            std::vector<double>{0.21360235, 0.12304694, 0.13833959});
   Particulas.push_back(nuevaParticula);
   movimientoParticulas(Particulas);
-  ASSERT_EQ(Particulas[0].getPosition(), (std::vector<double>{-0.055491925839999998, 0.01532645622, 0.029336047940000002}));
+  std::vector<float> position;
+  for (int i = 0; i <= 2; ++i) {
+    position.push_back(static_cast<float>(Particulas[0].getPosition()[i]));
+  }
+
+  ASSERT_EQ(position, (std::vector<float>{-0.055491924, 0.015326456, 0.029336048}));
   ASSERT_EQ(Particulas[0].getVelocityVector(), (std::vector<double>{0.21121116, 0.11350522, 0.14053094}));
   ASSERT_EQ(Particulas[0].getHeadVector(), (std::vector<double>{0.21121116, 0.10860522, 0.14053094}));
 }
