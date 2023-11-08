@@ -1,5 +1,8 @@
 #include "grid.hpp"
 
+#include <iostream>
+#include <vector>
+
 std::vector<int> calcularNumBloques(double Longitud_Suavizado_h) {
   const std::vector<int> Numero_Bloques = {int(std::floor((Limite_Superior[0]-Limite_Inferior[0])/Longitud_Suavizado_h)),
                                            int(std::floor((Limite_Superior[1]-Limite_Inferior[1])/Longitud_Suavizado_h)),

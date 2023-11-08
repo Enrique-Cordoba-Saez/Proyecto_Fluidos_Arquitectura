@@ -121,12 +121,12 @@ void vaciarBloques(std::vector<std::vector<std::vector<std::vector<int>>>> & Blo
   }
 }
 
-// Función para actualizar las aceleraciones de particulas en base a
-//chocar con las paredes del recinte (PARTE 3 del procesamiento de la simulación)
+// Función para actualizar las aceleraciones de particulas basandose en
+//choques con las paredes del recinto (PARTE 3 del procesamiento de la simulación)
 void chocarParticulasRecinto(std::vector<Particle> &particles, std::vector<int>const & maximo_indice_bloque){
   for (auto &current_particle : particles){
-    //Aqui el vector "posiciones_particula" hace referencia a los indices del
-    // bloque en los que se encuentra la particula con la que estampos tratando
+    //Aquí el vector "posiciones_particula" hace referencia a los indices del
+    // bloque en los que se encuentra la particula con la que estamos tratando
     const std::vector<int> posiciones_particula = current_particle.getBlockIndexes();
 
     double const new_position_x = current_particle.getPosition()[0] + current_particle.getHeadVector()[0] * Paso_de_tiempo;
@@ -225,8 +225,8 @@ void movimientoParticulas(std::vector<Particle> &particles) {
     current_particle.setHeadVector(head_vector[0], head_vector[1], head_vector[2]);
   }
 }
-// Función para actualizar las velocidades y head vectors de particulas en base a
-//chocar con las paredes del recinte (PARTE CINCO del procesamiento de la simulación)
+// Función para actualizar las velocidades y head vectors de particulas basandose en
+//choques con las paredes del recinte (PARTE CINCO del procesamiento de la simulación)
 void chocarParticulasRecintoParte5(std::vector<Particle> &particles, std::vector<int>const & maximo_indice_bloque){
   for (auto &current_particle : particles){
     const std::vector<int> posiciones_particula = current_particle.getBlockIndexes();
@@ -283,7 +283,7 @@ void En_Eje_y_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
   if (posiciones_particula[1] == maximo_indice_bloque[1] - 1){
     double const diferencia_con_limite = Limite_Superior[1] - current_particle.getPosition()[1];
     if (diferencia_con_limite < 0){
-      double const new_position_y = Limite_Superior[2] + diferencia_con_limite;
+      double const new_position_y = Limite_Superior[1] + diferencia_con_limite;
       current_particle.setPosition(current_particle.getPosition()[0], new_position_y,
                                    current_particle.getPosition()[2]);
       current_particle.setHeadVector(current_particle.getHeadVector()[0], current_particle.getHeadVector()[1] * -1,
@@ -383,7 +383,7 @@ void incrementoDensidad(int index, Particle& particula, std::vector<Particle>& p
 void transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
                             double const Masa_Particula_m){
   double factor = (particula.getDensity() + std::pow(Longitud_Suavizado_h, seis))
-                  * (315 / (64 * Pi * std::pow(Longitud_Suavizado_h, nueve)))
+                  * (315 / (64 * Numero_Pi * std::pow(Longitud_Suavizado_h, nueve)))
                   * Masa_Particula_m;
   particula.setDensity(factor);
 }
@@ -423,7 +423,7 @@ void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, 
   double factor1y = particula.getPosition()[1] - particula2.getPosition()[1];
   double factor1z = particula.getPosition()[2] - particula2.getPosition()[2];
 
-  double factor2 = 15 / (Pi * std::pow(Longitud_Suavizado_h, 6));
+  double factor2 = 15 / (Numero_Pi * std::pow(Longitud_Suavizado_h, 6));
 
   double factor3 = (3 * Masa_Particula_m * Presion_De_Rigidez) / 2;
 
@@ -435,7 +435,7 @@ void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, 
   double factor6y = particula2.getVelocityVector()[1] - particula.getVelocityVector()[1];
   double factor6z = particula2.getVelocityVector()[2] - particula.getVelocityVector()[2];
 
-  double factor7 = (45 / (Pi * std::pow(Longitud_Suavizado_h, 6))) * Viscosidad * Masa_Particula_m;
+  double factor7 = (45 / (Numero_Pi * std::pow(Longitud_Suavizado_h, 6))) * Viscosidad * Masa_Particula_m;
 
   double factor8 = particula.getDensity() * particula2.getDensity();
 
