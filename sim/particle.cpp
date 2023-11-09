@@ -5,8 +5,6 @@
 #include <iostream>
 #include "grid.hpp"
 
-void vaciarBloques(std::vector<std::vector<std::vector<std::vector<int>>>> & Bloques);
-
 Particle::Particle(
     std::vector<double> initialAcceleration,
     std::vector<double> initialPosition,

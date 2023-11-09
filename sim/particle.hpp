@@ -39,6 +39,9 @@ class Particle {
 
 std::vector<int> reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
                                         std::vector<double> tamanoBloques, std::vector<std::vector<std::vector<std::vector<int>>>> &Bloques);
+
+void vaciarBloques(std::vector<std::vector<std::vector<std::vector<int>>>> & Bloques);
+
 void movimientoParticulas(std::vector<Particle> &particles);
 
 void chocarParticulasRecinto(std::vector<Particle> &particles, std::vector<int>const & maximo_indice_bloque);

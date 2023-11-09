@@ -35,3 +35,33 @@ void printBloques(std::vector<std::vector<std::vector<std::vector<int>>>> Bloque
   }
   std::cout << "Partículas leídas en bloques: " << total_particulas << "\n";
 }
+
+/*
+void printBloques(std::vector<std::vector<std::vector<std::vector<int>>>> Bloques) {
+  // Imprimir todos los valores
+  size_t total_particulas = 0;
+  int x_min = i-1;
+  int y_min = i-1;
+  int z_min = i-1;
+  if (particle.blockx == 0) {
+    x_min = 0;
+  } else if (particle.blockx == nx-1) {
+    x_max = i;
+  }
+  for (int x = i-1; x <= x+1; ++x) {
+    for (int y = i-1; y <= y+1; ++y) {
+      for (int z = i-1; z <= z+1; ++z) {
+        for (auto: j, Bloques[x][y][z]) {
+          Partiicle particula2 = particulas[j];
+
+
+
+
+
+        }
+      }
+    }
+  }
+  std::cout << "Partículas leídas en bloques: " << total_particulas << "\n";
+}
+*/
