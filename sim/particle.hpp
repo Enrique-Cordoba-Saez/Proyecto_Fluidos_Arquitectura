@@ -2,6 +2,8 @@
 #define PARTICLE_HPP
 #include <iostream>
 #include <vector>
+#include <cmath>
+#include <array>
 
 class Particle {
   public:
@@ -69,13 +71,28 @@ void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
 
 
 // CALCULO DE ACELERACIONES
-void calculoAceleraciones(std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
-                          double const Masa_Particula_m);
+void calculoAceleraciones(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
+                          double const Masa_Particula_m,
+                          const std::vector<std::vector<std::vector<std::vector<int>>>>& Bloques);
 
-void incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h);
+std::vector<std::array<int, 2>>
+    incrementoDensidad(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
+                        std::vector<std::vector<std::vector<std::vector<int>>>> Bloques);
 
 void transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
                             double const Masa_Particula_m);
+
+void caso_x(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloques,
+            std::vector<int> const & particles_block, int & x_min, int & x_max);
+
+void caso_y(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloques,
+            std::vector<int> const & particles_block, int & y_min, int & y_max);
+
+void caso_z(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloques,
+            std::vector<int> const & particles_block, int & z_min, int & z_max);
+
+void calculosIncrementoDensidad(double const Longitud_Suavizado_h, Particle & particula,
+                                Particle & particula2);
 
 void transferenciaAceleracion(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
                               double const Masa_Particula_m);

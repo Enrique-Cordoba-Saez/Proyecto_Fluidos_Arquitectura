@@ -1,8 +1,5 @@
 #include "particle.hpp"
 
-// #include <math.h>
-#include <cmath>
-#include <iostream>
 #include "grid.hpp"
 
 Particle::Particle(
@@ -321,60 +318,90 @@ void En_Eje_x_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
 
 
 // CALCULO DE ACELERACIONES
-void calculoAceleraciones(std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
-                          double const Masa_Particula_m) {
-
-  printParticle(particulas, 0);
-
-  std::cout << " " << std::endl;
-  std::cout << "----> INICIACION DE ACELERACIONES" << std::endl;
-  for (size_t i = 0; i < particulas.size(); ++i) {
-    particulas[i].setAcceleration(0.0, -Gravedad, 0.0);
-    particulas[i].setDensity(0.0);
+void calculoAceleraciones(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
+                          double const Masa_Particula_m,
+                          const std::vector<std::vector<std::vector<std::vector<int>>>>& Bloques) {
+  for (auto & particula : particulas) {
+    particula.setAcceleration(0.0, -Gravedad, 0.0);
+    particula.setDensity(0.0);
   }
-  printParticle(particulas, 0);
 
-  std::cout << " " << std::endl;
-  std::cout << "----> INCREMENTO DE DENSIDADES" << std::endl;
-  for (size_t i = 0; i < particulas.size(); ++i) {
-    incrementoDensidad(i,particulas[i], particulas, Longitud_Suavizado_h);
-  }
-  printParticle(particulas, 0);
+  std::vector<std::array<int, 2>> const pares = incrementoDensidad(particulas, Longitud_Suavizado_h, Bloques);
 
-  std::cout << " " << std::endl;
-  std::cout << "----> TRANSFORMACION DE DENSIDADES" << std::endl;
-  for (size_t i = 0; i < particulas.size(); ++i) {
-    transformacionDensidad(particulas[i], Longitud_Suavizado_h, Masa_Particula_m);
+  for (auto & particula : particulas) {
+    transformacionDensidad(particula, Longitud_Suavizado_h, Masa_Particula_m);
   }
-  printParticle(particulas, 0);
 
-  std::cout << " " << std::endl;
-  std::cout << "----> TRANSFERENCIA DE ACELERACIONES" << std::endl;
   for (size_t i = 0; i < particulas.size(); ++i) {
-    transferenciaAceleracion(i, particulas[i], particulas, Longitud_Suavizado_h, Masa_Particula_m);
+    transferenciaAceleracion(static_cast<int>(i), particulas[i], particulas, Longitud_Suavizado_h, Masa_Particula_m);
   }
-  printParticle(particulas, 0);
 }
 
-void incrementoDensidad(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h) {
-  for (size_t j = index + 1; j < particulas.size(); ++j) {
-    Particle & particula2 = particulas[j];
-    auto currentBlock = particula.getBlockIndexes();
-    auto otherBlock = particula2.getBlockIndexes();
-    // Comprobar que particula2 está en el mismo bloque o uno contiguo a particula
-    if (std::abs(currentBlock[0] - otherBlock[0]) <= 1 &&
-        std::abs(currentBlock[1] - otherBlock[1]) <= 1 &&
-        std::abs(currentBlock[2] - otherBlock[2]) <= 1) {
-      double h2 = Longitud_Suavizado_h * Longitud_Suavizado_h;
-      double r = std::pow(particula.getPosition()[0] - particula2.getPosition()[0], 2) +
-                 std::pow(particula.getPosition()[1] - particula2.getPosition()[1], 2) +
-                 std::pow(particula.getPosition()[2] - particula2.getPosition()[2], 2);
-      if (r < h2) {
-        double var_den = std::pow(h2 - r, 3);
-        particula.setDensity(particula.getDensity() + var_den);
-        particula2.setDensity(particula2.getDensity() + var_den);
-      }
-    }
+std::vector<std::array<int, 2>> incrementoDensidad(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
+                                                   std::vector<std::vector<std::vector<std::vector<int>>>> Bloques) {
+  std::vector<std::array<int, 2>> pares;
+  for (int i = 0; i < static_cast<int>(particulas.size()); ++i) {
+    Particle & particula = particulas[i];
+    std::vector<int> particles_block = particula.getBlockIndexes();
+    int x_min = particles_block[0] - 1;
+    int y_min = particles_block[1] - 1;
+    int z_min = particles_block[2] - 1;
+    int x_max = particles_block[0] + 1;
+    int y_max = particles_block[1] + 1;
+    int z_max = particles_block[2] + 1;
+    caso_x(Bloques, particles_block, x_min, x_max);
+    caso_y(Bloques, particles_block, y_min, y_max);
+    caso_z(Bloques, particles_block, z_min, z_max);
+    for (int block_x = x_min; block_x <= x_max; ++block_x) {
+      for (int block_y = y_min; block_y <= y_max; ++block_y) {
+        for (int block_z = z_min; block_z <= z_max; ++block_z) {
+          for (auto other_i : Bloques[block_x][block_y][block_z]) {
+            if (other_i > i) {
+              pares.push_back(std::array<int, 2>{i, other_i});
+              Particle & particula2 = particulas[other_i];
+              calculosIncrementoDensidad(Longitud_Suavizado_h, particula, particula2);
+            }}}}}
+  }
+  return pares;
+}
+
+void calculosIncrementoDensidad(double const Longitud_Suavizado_h, Particle & particula,
+                                Particle & particula2) {
+  double h2           = Longitud_Suavizado_h * Longitud_Suavizado_h;
+  double r = std::pow(particula.getPosition()[0] - particula2.getPosition()[0], 2) +
+             std::pow(particula.getPosition()[1] - particula2.getPosition()[1], 2) +
+             std::pow(particula.getPosition()[2] - particula2.getPosition()[2], 2);
+  if (r < h2) {
+    double var_den = std::pow(h2 - r, 3);
+    particula.setDensity(particula.getDensity() + var_den);
+    particula2.setDensity(particula2.getDensity() + var_den);
+  }
+}
+
+void caso_z(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloques,
+            std::vector<int> const & particles_block, int & z_min, int & z_max) {
+  if (particles_block[2] == 0) {
+    z_min += 1;
+  } else if (particles_block[2] == static_cast<int>(Bloques[0][0].size()) - 1) {
+    z_max -= 1;
+  }
+}
+
+void caso_y(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloques,
+            std::vector<int> const & particles_block, int & y_min, int & y_max) {
+  if (particles_block[1] == 0) {
+    y_min += 1;
+  } else if (particles_block[1] == static_cast<int>(Bloques[0].size()) - 1) {
+    y_max -= 1;
+  }
+}
+
+void caso_x(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloques,
+            std::vector<int> const & particles_block, int & x_min, int & x_max) {
+  if (particles_block[0] == 0) {
+    x_min += 1;
+  } else if (particles_block[0] == static_cast<int>(Bloques.size()) - 1) {
+    x_max -= 1;
   }
 }
 
