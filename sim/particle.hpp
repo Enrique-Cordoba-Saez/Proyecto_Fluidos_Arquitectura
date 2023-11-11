@@ -39,7 +39,7 @@ class Particle {
     std::vector<int> blockIndexes;
 };
 
-std::vector<int> reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
+void reposicionarParticulas(std::vector<Particle> &particles, std::vector<int> numBloques,
                                         std::vector<double> tamanoBloques, std::vector<std::vector<std::vector<std::vector<int>>>> &Bloques);
 
 void vaciarBloques(std::vector<std::vector<std::vector<std::vector<int>>>> & Bloques);
@@ -75,8 +75,7 @@ void calculoAceleraciones(std::vector<Particle> & particulas, double const Longi
                           double const Masa_Particula_m,
                           const std::vector<std::vector<std::vector<std::vector<int>>>>& Bloques);
 
-std::vector<std::array<int, 2>>
-    incrementoDensidad(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
+void incrementoDensidad(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
                         std::vector<std::vector<std::vector<std::vector<int>>>> Bloques);
 
 void transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
@@ -91,11 +90,12 @@ void caso_y(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloq
 void caso_z(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloques,
             std::vector<int> const & particles_block, int & z_min, int & z_max);
 
-void calculosIncrementoDensidad(double const Longitud_Suavizado_h, Particle & particula,
-                                Particle & particula2);
+void calculosIncrementoDensidad(Particle & particula, Particle & particula2,
+                                double const Longitud_Suavizado_h);
 
-void transferenciaAceleracion(int index, Particle& particula, std::vector<Particle>& particulas, double const Longitud_Suavizado_h,
-                              double const Masa_Particula_m);
+void transferenciaAceleracion(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
+                              double const Masa_Particula_m,
+                              std::vector<std::vector<std::vector<std::vector<int>>>> Bloques);
 
 void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
                                      double const Masa_Particula_m);

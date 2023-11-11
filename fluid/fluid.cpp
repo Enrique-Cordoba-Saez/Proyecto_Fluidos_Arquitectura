@@ -42,7 +42,7 @@ int main(int argc, const char* argv[]) {
   int const time_steps = procesador.getTimesteps();
   for (int i = 1; i <= time_steps; i++) {
     // 1. Reposicionamiento de cada partícula en la malla.
-    std::vector<int> const colindantes = reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques, Bloques);
+    reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques, Bloques);
     //printBloques(Bloques);
     // 2. Cálculo de fuerzas y aceleraciones para cada partícula.
     std::cout << "----------------------------------------------------------------------------" << std::endl;
