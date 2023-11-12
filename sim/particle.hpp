@@ -71,15 +71,15 @@ void En_Eje_z_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
 
 
 // CALCULO DE ACELERACIONES
-void calculoAceleraciones(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
-                          double const Masa_Particula_m,
+void calculoAceleraciones(std::vector<Particle> & particulas, double Longitud_Suavizado_h,
+                          double Masa_Particula_m,
                           const std::vector<std::vector<std::vector<std::vector<int>>>>& Bloques);
 
-void incrementoDensidad(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
+void incrementoDensidad(std::vector<Particle> & particulas, double Longitud_Suavizado_h,
                         std::vector<std::vector<std::vector<std::vector<int>>>> Bloques);
 
-void transformacionDensidad(Particle& particula, double const Longitud_Suavizado_h,
-                            double const Masa_Particula_m);
+void transformacionDensidad(Particle& particula, double Longitud_Suavizado_h,
+                            double Masa_Particula_m);
 
 void caso_x(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloques,
             std::vector<int> const & particles_block, int & x_min, int & x_max);
@@ -91,16 +91,14 @@ void caso_z(std::vector<std::vector<std::vector<std::vector<int>>>> const & Bloq
             std::vector<int> const & particles_block, int & z_min, int & z_max);
 
 void calculosIncrementoDensidad(Particle & particula, Particle & particula2,
-                                double const Longitud_Suavizado_h);
+                                double Longitud_Suavizado_h);
 
-void transferenciaAceleracion(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
-                              double const Masa_Particula_m,
+void transferenciaAceleracion(std::vector<Particle> & particulas, double Longitud_Suavizado_h,
+                              double Masa_Particula_m,
                               std::vector<std::vector<std::vector<std::vector<int>>>> Bloques);
 
-void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
-                                     double const Masa_Particula_m);
-
-void printParticle(Particle& particula);
+void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, double Longitud_Suavizado_h,
+                                     double Masa_Particula_m);
 
 
 #endif // PARTICLE_HPP

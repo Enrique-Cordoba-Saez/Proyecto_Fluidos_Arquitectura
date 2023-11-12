@@ -45,8 +45,6 @@ int main(int argc, const char* argv[]) {
     reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques, Bloques);
     //printBloques(Bloques);
     // 2. Cálculo de fuerzas y aceleraciones para cada partícula.
-    std::cout << "--------------------------------------------------------------------------------------------------------------" << std::endl;
-    std::cout << "Iteracion " << i << std::endl;
     calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m, Bloques);
     // 3. Procesamiento de colisiones.
     chocarParticulasRecinto(Particulas, Numero_Bloques);
