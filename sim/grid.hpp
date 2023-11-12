@@ -14,8 +14,8 @@
   const double Viscosidad = 0.4;
   const double Tamano_de_particula = 0.0002;
   const double Paso_de_tiempo = 0.001;
-  const double Gravedad = 9.8; //Librería?
-  const double Numero_Pi = 2* acos(0.0); //Librería?
+  const double Gravedad = 9.8;
+  const double Numero_Pi = 2* acos(0.0);
 
   const int cinco = 5;
   const int seis = 6;

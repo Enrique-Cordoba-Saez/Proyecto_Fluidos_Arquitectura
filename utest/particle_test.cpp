@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "sim/particle.hpp"
 #include "sim/grid.hpp"
+#include "sim/progargs.hpp"
 
 // Para una partícula dentro de los límites del recinto, comprobar que se reposiciona en el bloque correcto
 /*TEST(ReposicionarParticulasTest, CorrectoTest) {
@@ -192,4 +193,49 @@ TEST(InteraccionesLimitesRecinto_Parte5_Test, TestEjeY_Maximo){
   ASSERT_EQ(Particulas[0].getHeadVector(), (std::vector<double>{0.21121116, -0.11840522, 0.14053094}));
   ASSERT_EQ(Particulas[0].getVelocityVector(), (std::vector<double>{0.21360235, -0.12304694, 0.13833959}));
 
+}
+
+
+//--------------------------------------------------------------
+
+TEST(CalculoAceleraciones, CorrectoTest) {
+  std::vector<const char *> const args = {"1", "../../files/small.fld", "../../files/small_out.fld"};
+  auto procesador = ProgArgs(3, args);
+  // Leer archivo de entrada: devuelve vector con todos los parámetros (sin el header) en double
+  std::vector<double> const valoresDobles = procesador.leerArchivo();
+
+  //Declaración de parámetros de la simulación
+  double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
+  double const Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
+  const std::vector<int> Numero_Bloques = calcularNumBloques(Longitud_Suavizado_h);
+  const std::vector<double> Tamano_Bloques = {(Limite_Superior[0]-Limite_Inferior[0])/double(Numero_Bloques[0]),
+                                              (Limite_Superior[1]-Limite_Inferior[1])/double(Numero_Bloques[1]),
+                                              (Limite_Superior[2]-Limite_Inferior[2])/double(Numero_Bloques[2])
+  };
+  auto Bloques = crearBloques(Numero_Bloques);
+
+  //Creación de las partículas
+  std::vector<Particle> Particulas;
+  for (size_t i = 0; i < valoresDobles.size(); i+=nueve){
+    Particle const nuevaParticula = Particle(std::vector<double>{0.0, 0.0, 0.0}, std::vector<double>{valoresDobles[i], valoresDobles[i+1], valoresDobles[i+2]},
+                                             0.0, std::vector<double> {valoresDobles[i+3], valoresDobles[i+4], valoresDobles[i+cinco]},
+                                             std::vector<double> {valoresDobles[i+seis], valoresDobles[i+siete], valoresDobles[i+ocho]});
+    Particulas.push_back(nuevaParticula);
+  }
+
+  reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques, Bloques);
+
+  calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m, Bloques);
+
+  //Valores esperados extraidos de acctransf-base-1.trz
+  ASSERT_EQ(Particulas[0].getHeadVector()[0], -138.25201416015625);
+  ASSERT_EQ(Particulas[0].getHeadVector()[1], -114.89396667480469);
+  ASSERT_EQ(Particulas[0].getHeadVector()[2], -174.98200988769531);
+  ASSERT_EQ(Particulas[0].getPosition()[0], -0.15894584357738495);
+  ASSERT_EQ(Particulas[0].getPosition()[1], -0.13979701697826385);
+  ASSERT_EQ(Particulas[0].getPosition()[2], -0.17522169649600983);
+  ASSERT_EQ(Particulas[0].getDensity(), 321.71521414997841);
+  ASSERT_EQ(Particulas[0].getAcceleration()[0], 0);
+  ASSERT_EQ(Particulas[0].getAcceleration()[1], -9.8);
+  ASSERT_EQ(Particulas[0].getAcceleration()[2], 0);
 }

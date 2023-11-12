@@ -100,7 +100,7 @@ void transferenciaAceleracion(std::vector<Particle> & particulas, double const L
 void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, double const Longitud_Suavizado_h,
                                      double const Masa_Particula_m);
 
-void printParticle(std::vector<Particle>& particulas, int index);
+void printParticle(Particle& particula);
 
 
 #endif // PARTICLE_HPP

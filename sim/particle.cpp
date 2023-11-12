@@ -314,6 +314,7 @@ void En_Eje_x_Parte5(std::vector<int> const & maximo_indice_bloque, Particle & c
 void calculoAceleraciones(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
                           double const Masa_Particula_m,
                           const std::vector<std::vector<std::vector<std::vector<int>>>>& Bloques) {
+
   for (auto & particula : particulas) {
     particula.setAcceleration(0.0, -Gravedad, 0.0);
     particula.setDensity(0.0);
@@ -326,7 +327,6 @@ void calculoAceleraciones(std::vector<Particle> & particulas, double const Longi
   }
 
   transferenciaAceleracion(particulas, Longitud_Suavizado_h, Masa_Particula_m, Bloques);
-
 }
 
 void incrementoDensidad(std::vector<Particle> & particulas, double const Longitud_Suavizado_h,
@@ -475,17 +475,17 @@ void calculoTransferenciaAceleracion(Particle& particula, Particle& particula2, 
   }
 }
 
-void printParticle(std::vector<Particle>& particulas, int index){
-  std::cout << "Particula con index " << index << std::endl;
-  std::vector<double> aceleracion0 = particulas[index].getAcceleration();
-  std::vector<double> posicion0 = particulas[index].getPosition();
-  std::vector<double> vectorHead0 = particulas[index].getHeadVector();
-  std::vector<double> velocidad0 = particulas[index].getVelocityVector();
-  double densidad = particulas[index].getDensity();
+void printParticle(Particle& particula){
+  std::cout << "PARTICULA ---------------------------------------------------" << std::endl;
+  std::vector<double> aceleracion0 = particula.getAcceleration();
+  std::vector<double> posicion0 = particula.getPosition();
+  std::vector<double> vectorHead0 = particula.getHeadVector();
+  std::vector<double> velocidad0 = particula.getVelocityVector();
+  double densidad = particula.getDensity();
 
-  std::cout << "----> Posicion " << posicion0[0] << " " << posicion0[1] << " " << posicion0[2] << std::endl;
-  std::cout << "----> Head Vector " << vectorHead0[0] << " " << vectorHead0[1] << " " << vectorHead0[2] << std::endl;
-  std::cout << "----> Velocidad " << velocidad0[0] << " " << velocidad0[1] << " " << velocidad0[2] << std::endl;
+  std::cout << "----> Posicion " << posicion0[0] << ", " << posicion0[1] << ", " << posicion0[2] << std::endl;
+  std::cout << "----> Head Vector " << vectorHead0[0] << ", " << vectorHead0[1] << ", " << vectorHead0[2] << std::endl;
+  std::cout << "----> Velocidad " << velocidad0[0] << ", " << velocidad0[1] << ", " << velocidad0[2] << std::endl;
   std::cout << "----> Densidad " << densidad << std::endl;
-  std::cout << "----> Aceleracion " << aceleracion0[0] << " " << aceleracion0[1] << " " << aceleracion0[2] << std::endl;
+  std::cout << "----> Aceleracion " << aceleracion0[0] << ", " << aceleracion0[1] << ", " << aceleracion0[2] << std::endl;
 }
