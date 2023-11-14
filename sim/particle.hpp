@@ -17,12 +17,12 @@ class Particle {
     );
 
     // Getter methods
-    double getDensity() const;
-    std::vector<double> getAcceleration() const;
-    std::vector<double> getPosition() const;
-    std::vector<double> getHeadVector() const;
-    std::vector<double> getVelocityVector() const;
-    std::vector<int> getBlockIndexes() const;
+    [[nodiscard]] double getDensity() const;
+    [[nodiscard]] std::vector<double> getAcceleration() const;
+    [[nodiscard]] std::vector<double> getPosition() const;
+    [[nodiscard]] std::vector<double> getHeadVector() const;
+    [[nodiscard]] std::vector<double> getVelocityVector() const;
+    [[nodiscard]] std::vector<int> getBlockIndexes() const;
     void setAcceleration (double x, double y, double z);
     void setDensity(double x);
     void setPosition(double px, double py, double pz);

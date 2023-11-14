@@ -1,1 +1,0 @@
-Carpeta para probar cosas, borrar en un futuro.
