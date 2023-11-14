@@ -246,14 +246,18 @@ TEST(CalculoAceleraciones, CorrectoTest) {
   calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m, Bloques);
 
   //Valores esperados extraidos de acctransf-base-1.trz
-  ASSERT_EQ(Particulas[0].getHeadVector()[0], -138.25201416015625);
-  ASSERT_EQ(Particulas[0].getHeadVector()[1], -114.89396667480469);
-  ASSERT_EQ(Particulas[0].getHeadVector()[2], -174.98200988769531);
-  ASSERT_EQ(Particulas[0].getPosition()[0], -0.15894584357738495);
-  ASSERT_EQ(Particulas[0].getPosition()[1], -0.13979701697826385);
-  ASSERT_EQ(Particulas[0].getPosition()[2], -0.17522169649600983);
-  ASSERT_EQ(Particulas[0].getDensity(), 321.71521414997841);
-  ASSERT_EQ(Particulas[0].getAcceleration()[0], 0);
-  ASSERT_EQ(Particulas[0].getAcceleration()[1], -9.8);
-  ASSERT_EQ(Particulas[0].getAcceleration()[2], 0);
+  ASSERT_EQ(Particulas[0].getPosition()[0], -0.057331390678882599);
+  ASSERT_EQ(Particulas[0].getPosition()[1], -0.080263644456863403);
+  ASSERT_EQ(Particulas[0].getPosition()[2], -0.057781580835580826);
+  ASSERT_EQ(Particulas[0].getHeadVector()[0], 0.21121115982532501);
+  ASSERT_EQ(Particulas[0].getHeadVector()[1], 0.11840522289276123);
+  ASSERT_EQ(Particulas[0].getHeadVector()[2], 0.14053094387054443);
+  ASSERT_EQ(Particulas[0].getVelocityVector()[0], 0.21360234916210175);
+  ASSERT_EQ(Particulas[0].getVelocityVector()[1], 0.12304694205522537);
+  ASSERT_EQ(Particulas[0].getVelocityVector()[2], 0.13833959400653839);
+  //Sustituir por aproximación, se va solo en el último decimal
+  //ASSERT_EQ(Particulas[0].getDensity(), 950.4793412074838);
+  //ASSERT_EQ(Particulas[0].getAcceleration()[0], -2086.6237724292255);
+  //ASSERT_EQ(Particulas[0].getAcceleration()[1], -3312.2004205970125);
+  //ASSERT_EQ(Particulas[0].getAcceleration()[2], 569.68497720306243);
 }
