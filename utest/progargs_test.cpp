@@ -92,3 +92,67 @@ TEST(EscribirArchivoTest, CorrectoTest) {
   EXPECT_TRUE(archivo.is_open());
   archivo.close();
 }
+
+// ------------------------------------------------------
+
+// La simulación produce los resultados esperados (en un archivo de salida) para un determinado archivo de entrada
+TEST(SimulacionCorrecta, CorrectoTest) {
+  std::vector<const char *> const args = {"5", "../../files/small.fld", "../../files/small_out.fld"};
+  auto procesador = ProgArgs(3, args);
+  std::vector<double> const valoresDobles = procesador.leerArchivo();
+  //Creación de las partículas
+  std::vector<Particle> Particulas;
+  for (size_t i = 0; i < valoresDobles.size(); i+=nueve){
+    Particle const nuevaParticula = Particle(std::vector<double>{0.0, 0.0, 0.0}, std::vector<double>{valoresDobles[i], valoresDobles[i+1], valoresDobles[i+2]},
+                                             0.0, std::vector<double> {valoresDobles[i+3], valoresDobles[i+4], valoresDobles[i+cinco]},
+                                             std::vector<double> {valoresDobles[i+seis], valoresDobles[i+siete], valoresDobles[i+ocho]});
+    Particulas.push_back(nuevaParticula);
+  }
+  //Declaración de parámetros de la simulación
+  double const Masa_Particula_m = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
+  double const Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
+  const std::vector<int> Numero_Bloques = calcularNumBloques(Longitud_Suavizado_h);
+  const std::vector<double> Tamano_Bloques = {
+    (Limite_Superior[0] - Limite_Inferior[0]) / double(Numero_Bloques[0]),
+    (Limite_Superior[1] - Limite_Inferior[1]) / double(Numero_Bloques[1]),
+    (Limite_Superior[2] - Limite_Inferior[2]) / double(Numero_Bloques[2])
+  };
+
+  auto Bloques = crearBloques(Numero_Bloques);
+
+  int const time_steps = procesador.getTimesteps();
+  for (int i = 1; i <= time_steps; i++) {
+    // 1. Reposicionamiento de cada partícula en la malla.
+    reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques, Bloques);
+    //printBloques(Bloques);
+    // 2. Cálculo de fuerzas y aceleraciones para cada partícula.
+    calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m, Bloques);
+    // 3. Procesamiento de colisiones.
+    chocarParticulasRecinto(Particulas, Numero_Bloques);
+    // 4. Movimiento de partículas.
+    movimientoParticulas(Particulas);
+    // 5. Procesamiento de límites.
+    chocarParticulasRecintoParte5(Particulas, Numero_Bloques);
+  }
+  procesador.escribirArchivo(Particulas);
+
+  const std::string archivoSalida = procesador.getArchivoSalida();
+  std::ifstream archivo_creado(archivoSalida, std::ios::in | std::ios::binary);
+
+  std::string lectura_archivo_creado;
+  if ( archivo_creado.is_open() ) {
+    archivo_creado >>
+        lectura_archivo_creado;  // Mover los contenidos del archivo a una cadena de texto
+  }
+
+  const std::string archivoSalidaProvisto = "../../files/small-5_CORRECTO.fld";
+  std::ifstream archivo_provisto(archivoSalidaProvisto, std::ios::in | std::ios::binary);
+
+  std::string lectura_archivo_provisto;
+  if ( archivo_provisto.is_open() ) {
+    archivo_provisto >>
+        lectura_archivo_provisto;  // Mover los contenidos del archivo a una cadena de texto
+  }
+  ASSERT_EQ(lectura_archivo_creado, lectura_archivo_provisto);
+
+}
