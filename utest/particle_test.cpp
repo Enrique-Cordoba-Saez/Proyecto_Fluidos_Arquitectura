@@ -255,9 +255,9 @@ TEST(CalculoAceleraciones, CorrectoTest) {
   ASSERT_EQ(Particulas[0].getVelocityVector()[0], 0.21360234916210175);
   ASSERT_EQ(Particulas[0].getVelocityVector()[1], 0.12304694205522537);
   ASSERT_EQ(Particulas[0].getVelocityVector()[2], 0.13833959400653839);
-  //Sustituir por aproximación, se va solo en el último decimal
-  //ASSERT_EQ(Particulas[0].getDensity(), 950.4793412074838);
-  //ASSERT_EQ(Particulas[0].getAcceleration()[0], -2086.6237724292255);
-  //ASSERT_EQ(Particulas[0].getAcceleration()[1], -3312.2004205970125);
-  //ASSERT_EQ(Particulas[0].getAcceleration()[2], 569.68497720306243);
+
+  ASSERT_NEAR(Particulas[0].getDensity(), 950.4793412074838, 1e-12);
+  ASSERT_NEAR(Particulas[0].getAcceleration()[0], -2086.6237724292255, 1e-12);
+  ASSERT_NEAR(Particulas[0].getAcceleration()[1], -3312.2004205970125, 1e-12);
+  ASSERT_NEAR(Particulas[0].getAcceleration()[2], 569.68497720306243, 1e-12);
 }
