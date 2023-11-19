@@ -98,7 +98,7 @@ void ProgArgs::comprobarArchivoEntrada(const std::vector<double>& valoresDoble) 
   }
 }
 
-// Método de prueba para imprimir todos los atributos de la clase ProgArgs
+// Método para imprimir todos los datos de la simulación requeridos
 void ProgArgs::imprimirDatos(double masa_particula, double longitud_suavizado,
                              std::vector<int> num_bloques, std::vector<double> tam_bloque) const {
   std::cout << "Number of particles: " << num_particles << "\nParticles per meter: " << ppm

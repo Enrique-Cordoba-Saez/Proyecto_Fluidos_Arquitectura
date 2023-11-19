@@ -1,15 +1,16 @@
 /*#include <iostream>*/
-#include <vector>
-#include <cmath>
 #include "sim/progargs.hpp"
+
+#include <cmath>
+#include <vector>
 /*#include "sim/particle.hpp"*/
 #include "sim/grid.hpp"
 /*#include <chrono>*/
 
 ProgArgs crearProcesador(int argc, char const * const * argv);
 
-void Parametros1(ProgArgs const & procesador, double const & Masa_Particula_m,
-                 double const & Longitud_Suavizado_h, std::vector<int> & Numero_Bloques);
+void Parametros1(ProgArgs const & procesador, double & Masa_Particula_m,
+                 double & Longitud_Suavizado_h, std::vector<int> & Numero_Bloques);
 
 std::vector<double> ParametroTamanoBloque(std::vector<int> const & Numero_Bloques);
 
@@ -19,19 +20,17 @@ void creacionParticulas(std::vector<double> const & valoresDobles,
 std::vector<Particle> & partesTresCuatroCinco(std::vector<int> const & Numero_Bloques,
                                               std::vector<Particle> & Particulas);
 
-
-
-int main(int argc, const char* argv[]) {
+int main(int argc, char const * argv[]) {
   ProgArgs procesador = crearProcesador(argc, argv);
   // Leer archivo de entrada: devuelve vector con todos los parámetros (sin el header) en double
   std::vector<double> const valoresDobles = procesador.leerArchivo();
   // Declaración de parámetros de la simulación
-  double const Masa_Particula_m = 0.0;
-  double const Longitud_Suavizado_h = 0.0;
+  double Masa_Particula_m     = 0.0;
+  double Longitud_Suavizado_h = 0.0;
   std::vector<int> Numero_Bloques;
   Parametros1(procesador, Masa_Particula_m, Longitud_Suavizado_h, Numero_Bloques);
   std::vector<double> const Tamano_Bloques = ParametroTamanoBloque(Numero_Bloques);
-  auto Bloques = crearBloques(Numero_Bloques);
+  auto Bloques                             = crearBloques(Numero_Bloques);
   // Creación de las partículas
   std::vector<Particle> Particulas;
   creacionParticulas(valoresDobles, Particulas);
@@ -40,16 +39,13 @@ int main(int argc, const char* argv[]) {
   for (int i = 1; i <= time_steps; i++) {
     // 1. Reposicionamiento de cada partícula en la malla.
     reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques, Bloques);
-    //  2. Cálculo de fuerzas y aceleraciones para cada partícula.
+    // 2. Cálculo de fuerzas y aceleraciones para cada partícula.
     calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m, Bloques);
     // 3. Procesamiento de colisiones, 4. Movimiento de partículas y 5. Procesamiento de límites.
     Particulas = partesTresCuatroCinco(Numero_Bloques, Particulas);
   }
   procesador.escribirArchivo(Particulas);
 }
-
-
-
 
 std::vector<Particle> & partesTresCuatroCinco(std::vector<int> const & Numero_Bloques,
                                               std::vector<Particle> & Particulas) {
@@ -80,12 +76,13 @@ std::vector<double> ParametroTamanoBloque(std::vector<int> const & Numero_Bloque
   return Tamano_Bloques;
 }
 
-[[maybe_unused]] void Parametros1(ProgArgs const & procesador, double  & Masa_Particula_m,
-                 double  & Longitud_Suavizado_h, std::vector<int> & Numero_Bloques) {
+[[maybe_unused]] void Parametros1(ProgArgs const & procesador, double & Masa_Particula_m,
+                                  double & Longitud_Suavizado_h,
+                                  std::vector<int> & Numero_Bloques) {
   // Declaración de parámetros de la simulación
-  Masa_Particula_m= Densidad_De_Fluido / pow(procesador.getPpm(), 3);
-  Longitud_Suavizado_h= Multiplicador_De_Radio / procesador.getPpm();
-  Numero_Bloques= calcularNumBloques(Longitud_Suavizado_h);
+  Masa_Particula_m     = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
+  Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
+  Numero_Bloques       = calcularNumBloques(Longitud_Suavizado_h);
 }
 
 ProgArgs crearProcesador(int argc, char const * const * argv) {
@@ -102,8 +99,8 @@ ProgArgs crearProcesador(int argc, char const * const * argv) {
 auto start = std::chrono::high_resolution_clock::now();
 */
 
-
-/*procesador.imprimirDatos(Masa_Particula_m, Longitud_Suavizado_h, Numero_Bloques, Tamano_Bloques);*/
+/*procesador.imprimirDatos(Masa_Particula_m, Longitud_Suavizado_h, Numero_Bloques,
+ * Tamano_Bloques);*/
 
 // printBloques(Bloques);
 
