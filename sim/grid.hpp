@@ -4,6 +4,8 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
+#include "sim/progargs.hpp"
+
 
 //Declaración de constantes escalares de la simulación
   const double Multiplicador_De_Radio = 1.695;
@@ -34,5 +36,18 @@
   std::vector<std::vector<std::vector<std::vector<int>>>> crearBloques(std::vector<int> Numero_Bloques);
 
   void printBloques(std::vector<std::vector<std::vector<std::vector<int>>>> Bloques);
+
+  ProgArgs crearProcesador(int argc, char const * const * argv);
+
+  void Parametros1(ProgArgs const & procesador, double & Masa_Particula_m,
+                   double & Longitud_Suavizado_h, std::vector<int> & Numero_Bloques);
+
+  std::vector<double> ParametroTamanoBloque(std::vector<int> const & Numero_Bloques);
+
+  void creacionParticulas(std::vector<double> const & valoresDobles,
+                          std::vector<Particle> & Particulas);
+
+  std::vector<Particle> & partesTresCuatroCinco(std::vector<int> const & Numero_Bloques,
+                                                std::vector<Particle> & Particulas);
 
 #endif //PROYECTO_FLUIDOS_ARQUITECTURA_GRID_HPP

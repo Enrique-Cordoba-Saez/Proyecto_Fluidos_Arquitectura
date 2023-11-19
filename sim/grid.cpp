@@ -14,6 +14,7 @@ std::vector<std::vector<std::vector<std::vector<int>>>> crearBloques(std::vector
   std::vector<std::vector<std::vector<std::vector<int>>>> Bloques(
       Numero_Bloques[0], std::vector<std::vector<std::vector<int>>>(
                              Numero_Bloques[1], std::vector<std::vector<int>>(Numero_Bloques[2])));
+  printBloques(Bloques);
   return Bloques;
 }
 
@@ -34,6 +35,53 @@ void printBloques(std::vector<std::vector<std::vector<std::vector<int>>>> Bloque
     }
   }
   std::cout << "Partículas leídas en bloques: " << total_particulas << "\n";
+}
+
+std::vector<Particle> & partesTresCuatroCinco(std::vector<int> const & Numero_Bloques,
+                                              std::vector<Particle> & Particulas) {
+  chocarParticulasRecinto(Particulas, Numero_Bloques);
+  movimientoParticulas(Particulas);
+  chocarParticulasRecintoParte5(Particulas, Numero_Bloques);
+  return Particulas;
+}
+
+void creacionParticulas(std::vector<double> const & valoresDobles,
+                        std::vector<Particle> & Particulas) {
+  for (size_t i = 0; i < valoresDobles.size(); i += nueve) {
+    Particle const nuevaParticula = Particle(
+        std::vector<double>{0.0, 0.0, 0.0},
+        std::vector<double>{valoresDobles[i], valoresDobles[i + 1], valoresDobles[i + 2]}, 0.0,
+        std::vector<double>{valoresDobles[i + 3], valoresDobles[i + 4], valoresDobles[i + cinco]},
+        std::vector<double>{valoresDobles[i + seis], valoresDobles[i + siete],
+                            valoresDobles[i + ocho]});
+    Particulas.push_back(nuevaParticula);
+  }
+}
+
+std::vector<double> ParametroTamanoBloque(std::vector<int> const & Numero_Bloques) {
+  std::vector<double> Tamano_Bloques = {
+    (Limite_Superior[0] - Limite_Inferior[0]) / double(Numero_Bloques[0]),
+    (Limite_Superior[1] - Limite_Inferior[1]) / double(Numero_Bloques[1]),
+    (Limite_Superior[2] - Limite_Inferior[2]) / double(Numero_Bloques[2])};
+  return Tamano_Bloques;
+}
+
+[[maybe_unused]] void Parametros1(ProgArgs const & procesador, double & Masa_Particula_m,
+                                  double & Longitud_Suavizado_h,
+                                  std::vector<int> & Numero_Bloques) {
+  // Declaración de parámetros de la simulación
+  Masa_Particula_m     = Densidad_De_Fluido / pow(procesador.getPpm(), 3);
+  Longitud_Suavizado_h = Multiplicador_De_Radio / procesador.getPpm();
+  Numero_Bloques       = calcularNumBloques(Longitud_Suavizado_h);
+}
+
+ProgArgs crearProcesador(int argc, char const * const * argv) {
+  // Extraer argumentos
+  std::span const args_view{argv, static_cast<size_t>(argc)};
+  std::vector const args(args_view.begin() + 1, args_view.end());
+  // Crear objeto de la clase ProgArgs
+  auto procesador = ProgArgs(argc - 1, args);
+  return procesador;
 }
 
 /*
