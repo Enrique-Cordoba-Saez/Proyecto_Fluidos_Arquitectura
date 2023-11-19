@@ -11,7 +11,7 @@
 ProgArgs::ProgArgs(int argc, std::vector<const char*> args) {
   // Comprobar número de argumentos
   if (argc != 3) {
-    std::cerr << "Error: Invalid number of arguments: " << argc << '\n';
+    std::cerr << "Error: Invalid   number of arguments: " << argc << '\n';
     exit(-1);
   }
   // Comprobar que time_steps es un entero
