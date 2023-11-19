@@ -4,6 +4,8 @@
 #include "gtest/gtest.h"
 #include <fstream>
 
+// Estos tests también están cubiertos como tests funcionales en forma de scripts
+
 // Todos los argumentos de entrada siguen el formato correcto
 TEST(ConstructorTest, CorrectoTest) {
   std::vector<char const *> const args = {"10", "../../files/small.fld", "output.fld"};
