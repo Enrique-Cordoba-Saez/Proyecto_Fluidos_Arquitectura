@@ -1,8 +1,9 @@
 #ifndef PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
 #define PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
 
-#include <span>
 #include "particle.hpp"
+
+#include <span>
 
 class ProgArgs {
   private:
@@ -13,17 +14,18 @@ class ProgArgs {
     int num_particles{};
 
   public:
-    ProgArgs(int argc, std::vector<const char*> args);
+    ProgArgs(int argc, std::vector<char const *> args);
     std::vector<double> leerArchivo();
-    void escribirArchivo(const std::vector<Particle>& particles);
-    void comprobarArchivoEntrada(const std::vector<double>& valoresDoble) const;
+    void escribirArchivo(std::vector<Particle> const & particles);
+    void comprobarArchivoEntrada(std::vector<double> const & valoresDoble) const;
     void imprimirDatos(double masa_particula, double longitud_suavizado,
                        std::vector<int> num_bloques, std::vector<double> tam_bloque) const;
     void leerHeader(std::ifstream & archivo, std::vector<char> & buffer);
     static void leerParametros(std::ifstream & archivo, std::vector<double> & valoresDoble,
                                std::vector<char> & buffer);
     void escribirHeader(std::ofstream & archivo_out) const;
-    static void escribirParametros(std::vector<Particle> const & particles, std::ofstream & archivo_out);
+    static void escribirParametros(std::vector<Particle> const & particles,
+                                   std::ofstream & archivo_out);
 
     [[nodiscard]] int getTimesteps() const;
     [[nodiscard]] double getPpm() const;
@@ -32,4 +34,4 @@ class ProgArgs {
     [[nodiscard]] std::string getArchivoSalida() const;
 };
 
-#endif //PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP
+#endif  // PROYECTO_FLUIDOS_ARQUITECTURA_PROGARGS_HPP

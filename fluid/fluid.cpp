@@ -5,6 +5,7 @@
 #include <vector>
 /*#include "sim/particle.hpp"*/
 #include "sim/grid.hpp"
+
 /*#include <chrono>*/
 
 int main(int argc, char const * argv[]) {
@@ -25,16 +26,14 @@ int main(int argc, char const * argv[]) {
   // Iterar pasos de tiempo
   int const time_steps = procesador.getTimesteps();
   for (int i = 1; i <= time_steps; i++) {
-    // 1. Reposicionamiento de cada partícula en la malla y 2. Cálculo de fuerzas y aceleraciones para cada partícula.
+    // 1. Reposicionamiento de cada partícula en la malla y 2. Cálculo de fuerzas y aceleraciones.
     reposicionarParticulas(Particulas, Numero_Bloques, Tamano_Bloques, Bloques);
     calculoAceleraciones(Particulas, Longitud_Suavizado_h, Masa_Particula_m, Bloques);
     // 3. Procesamiento de colisiones, 4. Movimiento de partículas y 5. Procesamiento de límites.
-    Particulas = partesTresCuatroCinco(Numero_Bloques, Particulas);
+    partesTresCuatroCinco(Numero_Bloques, Particulas);
   }
   procesador.escribirArchivo(Particulas);
 }
-
-
 
 /*
 // Registra el tiempo de inicio

@@ -4,17 +4,18 @@
 #include <vector>
 
 std::vector<int> calcularNumBloques(double Longitud_Suavizado_h) {
-  const std::vector<int> Numero_Bloques = {int(std::floor((Limite_Superior[0]-Limite_Inferior[0])/Longitud_Suavizado_h)),
-                                           int(std::floor((Limite_Superior[1]-Limite_Inferior[1])/Longitud_Suavizado_h)),
-                                           int(std::floor((Limite_Superior[2]-Limite_Inferior[2])/Longitud_Suavizado_h))};
+  std::vector<int> const Numero_Bloques = {
+    int(std::floor((Limite_Superior[0] - Limite_Inferior[0]) / Longitud_Suavizado_h)),
+    int(std::floor((Limite_Superior[1] - Limite_Inferior[1]) / Longitud_Suavizado_h)),
+    int(std::floor((Limite_Superior[2] - Limite_Inferior[2]) / Longitud_Suavizado_h))};
   return Numero_Bloques;
 }
 
-std::vector<std::vector<std::vector<std::vector<int>>>> crearBloques(std::vector<int> Numero_Bloques) {
+std::vector<std::vector<std::vector<std::vector<int>>>>
+    crearBloques(std::vector<int> Numero_Bloques) {
   std::vector<std::vector<std::vector<std::vector<int>>>> Bloques(
       Numero_Bloques[0], std::vector<std::vector<std::vector<int>>>(
                              Numero_Bloques[1], std::vector<std::vector<int>>(Numero_Bloques[2])));
-  printBloques(Bloques);
   return Bloques;
 }
 
@@ -26,9 +27,7 @@ void printBloques(std::vector<std::vector<std::vector<std::vector<int>>>> Bloque
       for (size_t k = 0; k < Bloques[i][j].size(); ++k) {
         // Imprimir los valores del vector en la posición [i][j][k]
         std::cout << "Bloques[" << i << "][" << j << "][" << k << "]: ";
-        for (int const p_id : Bloques[i][j][k]) {
-          std::cout << p_id << " ";
-        }
+        for (int const p_id : Bloques[i][j][k]) { std::cout << p_id << " "; }
         total_particulas += Bloques[i][j][k].size();
         std::cout << "\n";
       }
@@ -37,12 +36,11 @@ void printBloques(std::vector<std::vector<std::vector<std::vector<int>>>> Bloque
   std::cout << "Partículas leídas en bloques: " << total_particulas << "\n";
 }
 
-std::vector<Particle> & partesTresCuatroCinco(std::vector<int> const & Numero_Bloques,
-                                              std::vector<Particle> & Particulas) {
+void partesTresCuatroCinco(std::vector<int> const & Numero_Bloques,
+                           std::vector<Particle> & Particulas) {
   chocarParticulasRecinto(Particulas, Numero_Bloques);
   movimientoParticulas(Particulas);
   chocarParticulasRecintoParte5(Particulas, Numero_Bloques);
-  return Particulas;
 }
 
 void creacionParticulas(std::vector<double> const & valoresDobles,

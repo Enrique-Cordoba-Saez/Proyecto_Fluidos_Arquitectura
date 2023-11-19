@@ -1,14 +1,14 @@
-#include <iostream>
-#include <fstream>
-#include <cstring>
-#include <vector>
-#include <array>
 #include "progargs.hpp"
 
+#include <array>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <vector>
 
 // Constructor de la clase ProgArgs. Recibe el número de argumentos (argc) y
 // una vista de los mismos (args_view).
-ProgArgs::ProgArgs(int argc, std::vector<const char*> args) {
+ProgArgs::ProgArgs(int argc, std::vector<char const *> args) {
   // Comprobar número de argumentos
   if (argc != 3) {
     std::cerr << "Error: Invalid   number of arguments: " << argc << '\n';
@@ -27,7 +27,7 @@ ProgArgs::ProgArgs(int argc, std::vector<const char*> args) {
     exit(-2);
   }
   archivoEntrada = args[1];
-  archivoSalida = args[2];
+  archivoSalida  = args[2];
 }
 
 // Método para leer el archivo de entrada
@@ -84,7 +84,7 @@ void ProgArgs::leerParametros(std::ifstream & archivo, std::vector<double> & val
 
 // Método para comprobar que el número de partículas especificado en el header coincide con
 // el número real de partículas encontradas en el archivo
-void ProgArgs::comprobarArchivoEntrada(const std::vector<double>& valoresDoble) const {
+void ProgArgs::comprobarArchivoEntrada(std::vector<double> const & valoresDoble) const {
   int const exit_status = -5;
   if (num_particles <= 0) {
     std::cerr << "Error: Invalid number of particles: " << num_particles << '\n';
@@ -92,8 +92,8 @@ void ProgArgs::comprobarArchivoEntrada(const std::vector<double>& valoresDoble) 
   }
   long const found_particles = static_cast<long>(valoresDoble.size() / 9);
   if (num_particles != found_particles) {
-    std::cerr << "Error: Number of particles mismatch. Header: "
-              << num_particles << ", Found: " << found_particles << '\n';
+    std::cerr << "Error: Number of particles mismatch. Header: " << num_particles
+              << ", Found: " << found_particles << '\n';
     exit(exit_status);
   }
 }
@@ -103,13 +103,15 @@ void ProgArgs::imprimirDatos(double masa_particula, double longitud_suavizado,
                              std::vector<int> num_bloques, std::vector<double> tam_bloque) const {
   std::cout << "Number of particles: " << num_particles << "\nParticles per meter: " << ppm
             << "\nSmoothing length: " << longitud_suavizado << "\nParticle mass: " << masa_particula
-            << "\nGrid size: " << num_bloques[0] << " x " << num_bloques[1] << " x " << num_bloques[2]
-            << "\nNumber of blocks: " << num_bloques[0]*num_bloques[1]*num_bloques[2]
-            << "\nBlock size: " << tam_bloque[0] << " x " << tam_bloque[1] << " x " << tam_bloque[2] << '\n';
+            << "\nGrid size: " << num_bloques[0] << " x " << num_bloques[1] << " x "
+            << num_bloques[2]
+            << "\nNumber of blocks: " << num_bloques[0] * num_bloques[1] * num_bloques[2]
+            << "\nBlock size: " << tam_bloque[0] << " x " << tam_bloque[1] << " x " << tam_bloque[2]
+            << '\n';
 }
 
 // Método para escribir todos los datos finales en el archivo de salida
-void ProgArgs::escribirArchivo(std::vector<Particle> const& particles) {
+void ProgArgs::escribirArchivo(std::vector<Particle> const & particles) {
   // Abrir archivo en modo binario
   std::ofstream archivo_out(archivoSalida, std::ios::binary);
   if (!archivo_out) {
@@ -123,11 +125,12 @@ void ProgArgs::escribirArchivo(std::vector<Particle> const& particles) {
   archivo_out.close();
 }
 
-void ProgArgs::escribirParametros(std::vector<Particle> const & particles, std::ofstream & archivo_out) {
-  for (const auto& particle : particles) {
-    std::vector<double> const position = particle.getPosition();
+void ProgArgs::escribirParametros(std::vector<Particle> const & particles,
+                                  std::ofstream & archivo_out) {
+  for (auto const & particle : particles) {
+    std::vector<double> const position    = particle.getPosition();
     std::vector<double> const head_vector = particle.getHeadVector();
-    std::vector<double> const velocity = particle.getVelocityVector();
+    std::vector<double> const velocity    = particle.getVelocityVector();
     std::array<char, sizeof(float)> buffer{};
     // Escribir posición
     for (int i = 0; i < 3; ++i) {
@@ -171,14 +174,16 @@ double ProgArgs::getPpm() const {
   return ppm;
 }
 
+/*
 int ProgArgs::getNumParticles() const {
   return num_particles;
 }
+*/
 
-std::string ProgArgs:: getArchivoEntrada() const {
+std::string ProgArgs::getArchivoEntrada() const {
   return archivoEntrada;
 }
 
-std::string ProgArgs:: getArchivoSalida() const {
+std::string ProgArgs::getArchivoSalida() const {
   return archivoSalida;
 }
