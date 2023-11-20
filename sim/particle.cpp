@@ -450,8 +450,8 @@ void calculoTransferenciaAceleracion(Particle & particula, Particle & particula2
   double const Longitud_Suavizado_h_2 = Longitud_Suavizado_h * Longitud_Suavizado_h;
   if (distancia < Longitud_Suavizado_h_2) {
     double const dist = std::sqrt(std::max(distancia, 1e-12));
-    std::vector<double> factor1;
-    std::vector<double> factor6;
+    std::vector<double> factor1{0, 0, 0};
+    std::vector<double> factor6{0, 0, 0};
     factor1_6(particula, particula2, factor1, factor6);
     double const factor2 = 15 / (Numero_Pi * std::pow(Longitud_Suavizado_h, 6)) *
                            (3 * Masa_Particula_m * Presion_De_Rigidez) / 2 *
@@ -461,9 +461,9 @@ void calculoTransferenciaAceleracion(Particle & particula, Particle & particula2
     double const factor7 =
         (45 / (Numero_Pi * std::pow(Longitud_Suavizado_h, 6))) * Viscosidad * Masa_Particula_m;
     double const factor8 = particula.getDensity() * particula2.getDensity();
-    std::vector<double> result;
+    std::vector<double> result{0, 0, 0};
     for (int i = 0; i < 3; i++) {
-      result.push_back((factor1[i] * factor2 * factor5 + factor6[i] * factor7) / factor8);
+      result[i] = (factor1[i] * factor2 * factor5 + factor6[i] * factor7) / factor8;
     }
     resultadosCalculoTransferencia(particula, particula2, result);
   }
@@ -472,8 +472,8 @@ void calculoTransferenciaAceleracion(Particle & particula, Particle & particula2
 void factor1_6(Particle const & particula, Particle const & particula2,
                std::vector<double> & factor1, std::vector<double> & factor6) {
   for (int i = 0; i < 3; i++) {
-    factor1.push_back(particula.getPosition()[i] - particula2.getPosition()[i]);
-    factor6.push_back(particula2.getVelocityVector()[i] - particula.getVelocityVector()[i]);
+    factor1[i] = particula.getPosition()[i] - particula2.getPosition()[i];
+    factor6[i] = particula2.getVelocityVector()[i] - particula.getVelocityVector()[i];
   }
 }
 

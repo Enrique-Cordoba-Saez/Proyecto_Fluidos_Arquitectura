@@ -1,13 +1,10 @@
-//
-// Created by Kry0m on 03/10/2023.
-//
-
+/*
 #ifndef BLOCK_HPP
 #define BLOCK_HPP
 #include <array>
 #include <iostream>
 #include <vector>
-
+*/
 // typedef std::array<int, 8> adyacentes;
 
 /*
@@ -16,6 +13,7 @@ struct Vector_adyacencias {
 
 };
 */
+/*
 int const diecisiete = 17;
 
 // Clase no utilizada
@@ -38,3 +36,4 @@ class [[maybe_unused]] Block {
 };
 
 #endif  // PROYECTO_FLUIDOS_ARQUITECTURA_BLOCK_HPP
+*/

@@ -1,3 +1,4 @@
+/*
 #include "block.hpp"
 
 #include <iostream>
@@ -23,3 +24,4 @@ std::vector<double> Block::GetDimensions() const {
 std::vector<int> Block::GetBloquesVecinos() const {
   return bloques_adyacentes;
 }
+*/

@@ -1,12 +1,7 @@
-/*#include <iostream>*/
+#include "sim/grid.hpp"
 #include "sim/progargs.hpp"
 
-/*#include <cmath>*/
 #include <vector>
-/*#include "sim/particle.hpp"*/
-#include "sim/grid.hpp"
-
-/*#include <chrono>*/
 
 int main(int argc, char const * argv[]) {
   ProgArgs procesador = crearProcesador(argc, argv);
@@ -34,24 +29,3 @@ int main(int argc, char const * argv[]) {
   }
   procesador.escribirArchivo(Particulas);
 }
-
-/*
-// Registra el tiempo de inicio
-auto start = std::chrono::high_resolution_clock::now();
-*/
-
-/*procesador.imprimirDatos(Masa_Particula_m, Longitud_Suavizado_h, Numero_Bloques,
- * Tamano_Bloques);*/
-
-// printBloques(Bloques);
-
-/*
-// Registra el tiempo de finalización
-auto end = std::chrono::high_resolution_clock::now();
-
-// Calcula la duración del tiempo de ejecución en segundos
-auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start).count();
-
-// Imprime el tiempo de ejecución en segundos
-std::cout << "Tiempo de ejecucion: " << duration << " segundos" << "\n";
-*/

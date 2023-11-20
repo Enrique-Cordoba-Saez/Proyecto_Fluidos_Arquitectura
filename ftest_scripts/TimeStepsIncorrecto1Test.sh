@@ -5,7 +5,7 @@ error_output_file="./error_output.txt"
 > "$error_output_file"
 
 # Ejecutar el programa y redirigir la salida de errores al archivo
-../cmake-build-release/fluid/fluid a ../files/small.fld ../files/small_out.fld 2> "$error_output_file"
+../build/fluid/fluid a ../files/small.fld ../files/small_out.fld 2> "$error_output_file"
 
 # Mensaje de error esperado
 expected_error_message="Error: time steps must be numeric."
