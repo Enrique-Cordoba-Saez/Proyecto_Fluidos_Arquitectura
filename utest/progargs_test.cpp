@@ -8,9 +8,9 @@
 
 // Todos los argumentos de entrada siguen el formato correcto
 TEST(ConstructorTest, CorrectoTest) {
-  std::vector<char const *> const args = {"10", "../../files/small.fld", "output.fld"};
+  std::vector<char const *> const args = {"10", "files/small.fld", "output.fld"};
   auto procesador                      = ProgArgs(3, args);
-  ASSERT_EQ(procesador.getArchivoEntrada(), "../../files/small.fld");
+  ASSERT_EQ(procesador.getArchivoEntrada(), "files/small.fld");
   ASSERT_EQ(procesador.getArchivoSalida(), "output.fld");
 }
 
@@ -36,7 +36,7 @@ TEST(ConstructorTest, TimeStepsIncorrecto2Test) {
 
 // El archivo se lee correctamente y tiene el contenido adecuado
 TEST(LeerArchivoTest, CorrectoTest) {
-  std::vector<char const *> const args   = {"10", "../../files/small.fld", "output.fld"};
+  std::vector<char const *> const args   = {"10", "files/small.fld", "output.fld"};
   auto procesador                        = ProgArgs(3, args);
   std::vector<double> const valoresDoble = procesador.leerArchivo();
   ASSERT_EQ(typeid(valoresDoble), typeid(std::vector<double>));
@@ -44,21 +44,21 @@ TEST(LeerArchivoTest, CorrectoTest) {
 
 // El archivo de entrada no existe y no se puede abrir
 TEST(LeerArchivoTest, ArchivoEntradaIncorrectoTest) {
-  std::vector<char const *> const args = {"10", "../../files/small.txt", "output.fld"};
+  std::vector<char const *> const args = {"10", "files/small.txt", "output.fld"};
   auto procesador                      = ProgArgs(3, args);
   EXPECT_EXIT(procesador.leerArchivo(), ::testing::ExitedWithCode(-3 + 256), ".*");
 }
 
 // El header del archivo de entrada indica un número de partículas negativo (-5)
 TEST(LeerArchivoTest, NumParticlesIncorrecto1Test) {
-  std::vector<char const *> const args = {"10", "../../files/small_-5.fld", "output.fld"};
+  std::vector<char const *> const args = {"10", "files/small_-5.fld", "output.fld"};
   auto procesador                      = ProgArgs(3, args);
   EXPECT_EXIT(procesador.leerArchivo(), ::testing::ExitedWithCode(-5 + 256), ".*");
 }
 
 // El header del archivo de entrada indica que hay 4800 partículas, pero hay 4799 realmente
 TEST(LeerArchivoTest, NumParticlesIncorrecto2Test) {
-  std::vector<char const *> const args = {"10", "../../files/small_incomplete.fld", "output.fld"};
+  std::vector<char const *> const args = {"10", "files/small_incomplete.fld", "output.fld"};
   auto procesador                      = ProgArgs(3, args);
   EXPECT_EXIT(procesador.leerArchivo(), ::testing::ExitedWithCode(-5 + 256), ".*");
 }
@@ -67,8 +67,7 @@ TEST(LeerArchivoTest, NumParticlesIncorrecto2Test) {
 
 // El archivo de salida se crea correctamente
 TEST(EscribirArchivoTest, CorrectoTest) {
-  std::vector<char const *> const args    = {"10", "../../files/small.fld",
-                                             "../../files/small_out.fld"};
+  std::vector<char const *> const args    = {"10", "files/small.fld", "files/small_out.fld"};
   auto procesador                         = ProgArgs(3, args);
   std::vector<double> const valoresDobles = procesador.leerArchivo();
   // Creación de las partículas
@@ -103,8 +102,7 @@ TEST(EscribirArchivoTest, CorrectoTest) {
 // La simulación produce los resultados esperados (en un archivo de salida) para un determinado
 // archivo de entrada
 TEST(SimulacionCorrecta, CorrectoTest) {
-  std::vector<char const *> const args    = {"5", "../../files/small.fld",
-                                             "../../files/small_out.fld"};
+  std::vector<char const *> const args    = {"5", "files/small.fld", "files/small_out.fld"};
   auto procesador                         = ProgArgs(3, args);
   std::vector<double> const valoresDobles = procesador.leerArchivo();
   // Creación de las partículas
@@ -154,7 +152,7 @@ TEST(SimulacionCorrecta, CorrectoTest) {
         lectura_archivo_creado;  // Mover los contenidos del archivo a una cadena de texto
   }
 
-  std::string const archivoSalidaProvisto = "../../files/small-5_CORRECTO.fld";
+  std::string const archivoSalidaProvisto = "files/small-5_CORRECTO.fld";
   std::ifstream archivo_provisto(archivoSalidaProvisto, std::ios::in | std::ios::binary);
 
   std::string lectura_archivo_provisto;

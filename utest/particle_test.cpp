@@ -278,8 +278,7 @@ TEST(InteraccionesLimitesRecinto_Parte5_Test, TestEjeY_Maximo) {
 //--------------------------------------------------------------
 
 TEST(CalculoAceleraciones, CorrectoTest) {
-  std::vector<char const *> const args = {"1", "../../files/small.fld",
-                                          "../../files/small_out.fld"};
+  std::vector<char const *> const args = {"1", "files/small.fld", "files/small_out.fld"};
   auto procesador                      = ProgArgs(3, args);
   // Leer archivo de entrada: devuelve vector con todos los parámetros (sin el header) en double
   std::vector<double> const valoresDobles = procesador.leerArchivo();

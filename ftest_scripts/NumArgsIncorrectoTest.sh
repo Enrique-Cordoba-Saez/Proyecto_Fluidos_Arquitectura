@@ -1,5 +1,10 @@
 #!/bin/sh
 
+. /etc/profile
+module avail
+module load gcc/12.1.0
+
+
 # Limpiar el archivo de salida de errores
 error_output_file="./error_output.txt"
 > "$error_output_file"
